@@ -1,0 +1,20 @@
+{
+  "name": "টেসলা এক্সপ্রেস · Tesla Express",
+  "short_name": "Tesla Express",
+  "description": "টেসলা এক্সপ্রেসে রিকশা চালাও, ট্রাফিক এড়াও আর পয়েন্ট বাড়াও!",
+  "lang": "bn",
+  "dir": "ltr",
+  "id": "/",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#15110e",
+  "theme_color": "#15110e",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
