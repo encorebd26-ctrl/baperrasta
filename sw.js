@@ -1,19 +1,22 @@
 /* Tesla Express service worker: makes the game playable offline.
    Bump VERSION whenever you deploy a new build so old caches are dropped. */
-const VERSION = 'v2';
+const VERSION = 'v3';
 const CACHE = 'tesla-express-' + VERSION;
 
 const PRECACHE = [
   './',
   'index.html',
   'privacy.html',
+  'editor.html',
+  'disclaimer.html',
+  'saha-likhon.jpg',
   'manifest.webmanifest',
   'icons/favicon.png',
   'icons/apple-touch-icon.png',
   'icons/icon-192.png',
   'icons/icon-512.png',
   'icons/icon-maskable-512.png',
-  'nanir-rasta-logo.jpg',
+  'tesla-express-og.jpg',
   'fonts/anek-bangla-400-800-bengali.418c763509.woff2',
   'fonts/anek-bangla-400-800-latin.9d14431a27.woff2',
   'fonts/baloo-da-2-600-800-bengali.323d936108.woff2',
@@ -62,7 +65,7 @@ self.addEventListener('fetch', (event) => {
         return res;
       } catch {
         return (await cache.match(req, { ignoreSearch: true }))
-            || (url.pathname.endsWith('privacy.html') ? await cache.match('privacy.html') : null)
+            || (/\/(privacy|editor|disclaimer)\.html$/.test(url.pathname) ? await cache.match(url.pathname.split('/').pop()) : null)
             || (await cache.match('index.html'))
             || (await cache.match('./'))
             || Response.error();
