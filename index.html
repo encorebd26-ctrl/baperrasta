@@ -4877,7 +4877,7 @@ function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 var cfg=Object.assign({sound:true,hq:true},ld(KEY,{}));
 var cards=ld(CK,null);if(cards==null)cards=2;
 var today=new Date().toISOString().slice(0,10);if(ld(DK,'')!==today){cards=Math.min(5,cards+1);sv(DK,today);sv(CK,cards)}
-var cc=ld('teslaExpress.chandaCards',null);if(cc==null)cc=2;if(ld('teslaExpress.chandaDay','')!==today){cc=Math.min(5,cc+1);sv('teslaExpress.chandaDay',today);sv('teslaExpress.chandaCards',cc)}
+var cc=cards;sv('teslaExpress.chandaCards',cc);sv('teslaExpress.chandaDay',today);
 var BN=function(n){return String(n).replace(/\d/g,function(d){return '০১২৩৪৫৬৭৮৯'[d]})};
 window.__tesla={st:st,b:b,En:En,ie:ie,restore:function(){restore()}};
 var css=document.createElement('style');css.textContent=
@@ -4922,7 +4922,7 @@ addEventListener('keydown',function(e){if(e.code==='KeyP'||e.code==='Escape'){if
 document.addEventListener('visibilitychange',function(){if(document.hidden)pause()});
 function revive(){
  if(st.state!=='busted'||cards<1)return;
- cards--;sv(CK,cards);restore();
+ cards--;cc=cards;sv(CK,cards);sv('teslaExpress.chandaCards',cc);restore();
 }
 function restore(){window.__chBust=false;
  try{En.reset()}catch(e){}
@@ -4989,8 +4989,8 @@ function updCh(e,dt){var dx=b.x-e.x,dz=b.z-e.z,d=Math.hypot(dx,dz)||1;e.t+=dt;
   else{var f=chBtn;f.classList.toggle('on',st.state==='busted'&&cc>0&&st.deathT>.8);if(cc>0)f.innerHTML='🪪 চাঁদা কার্ড দেখান<small>ওরা রিকশা ভাঙছে! আছে '+BN(cc)+'টি</small>'}}
  else if(e.st==='shown'){e.off=Math.min(6,e.off+dt*4);e.g.position.set(e.x+b.rx*e.off,0,e.z+b.rz*e.off);if(e.t>3.5)e.dead=1}
  else if(e.st==='paid'&&e.t>3)e.dead=1}
-function showCard(){if(window.__chBust){if(cc>0&&st.state==='busted'){cc--;sv('teslaExpress.chandaCards',cc);restore();chBtn.classList.remove('on');say('🪪 চাঁদা কার্ড দেখালেন, ওরা পিছিয়ে গেল। এবার পালান!',4)}return}
- for(var i=0;i<ents.length;i++){var e=ents[i];if(e.k==='ch'&&(e.st==='wait'||e.st==='rush')&&cc>0){cc--;sv('teslaExpress.chandaCards',cc);e.st='shown';e.t=0;e.off=0;chBtn.classList.remove('on');say('🪪 চাঁদা কার্ড দেখালেন, চাঁদাবাজ সরে গেল',3);return}}}
+function showCard(){if(window.__chBust){if(cards>0&&st.state==='busted'){cards--;cc=cards;sv(CK,cards);sv('teslaExpress.chandaCards',cc);restore();chBtn.classList.remove('on');say('🪪 চাঁদা কার্ড দেখালেন, ওরা পিছিয়ে গেল। এবার পালান!',4)}return}
+ for(var i=0;i<ents.length;i++){var e=ents[i];if(e.k==='ch'&&(e.st==='wait'||e.st==='rush')&&cards>0){cards--;cc=cards;sv(CK,cards);sv('teslaExpress.chandaCards',cc);e.st='shown';e.t=0;e.off=0;chBtn.classList.remove('on');say('🪪 চাঁদা কার্ড দেখালেন, চাঁদাবাজ সরে গেল',3);return}}}
 /* pink women's bus: ram it for double national loss */
 function busSide(flip){var c=Se(1024,256),x=c.getContext('2d'),X=function(px,w){return flip?1024-px-(w||0):px};
  x.fillStyle='#d8389a';x.fillRect(0,0,1024,256);
@@ -5026,7 +5026,7 @@ var chBtn=document.createElement('button');chBtn.id='txChanda';chBtn.type='butto
 css.textContent+= '#txChanda{position:fixed;z-index:40;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 150px);transform:translateX(-50%);display:none;padding:12px 20px 9px;border:0;border-radius:16px;background:linear-gradient(180deg,#9be7ff,#3db8e6);color:#06202b;font:800 20px/1.1 var(--f-display,system-ui);box-shadow:0 5px 0 #1a6f8f,0 0 0 3px #000;cursor:pointer}#txChanda.on{display:block}#txChanda small{display:block;margin-top:3px;font:600 12.5px var(--f-ui,system-ui);opacity:.8}';
 chBtn.onclick=showCard;
 var tS=0,tC=10,tB=25,lastT=performance.now(),inMoh=false,chk=0;
-function tick(now){requestAnimationFrame(tick);var dt=Math.min(.05,(now-lastT)/1e3);lastT=now;if(window.__paused)return;
+function tick(now){requestAnimationFrame(tick);cc=cards;var dt=Math.min(.05,(now-lastT)/1e3);lastT=now;if(window.__paused)return;
  if(st.state!=='play'){if(window.__chBust&&(st.state==='busted'||st.state==='dead')){for(var q=0;q<ents.length;q++)if(ents[q].k==='ch')updCh(ents[q],dt);return}if(ents.length)clearAll();window.__chBust=false;tS=0;inMoh=false;return}
  chk-=dt;if(chk<=0){chk=.5;var was=inMoh;try{inMoh=Po($n(b.x),Zn(b.z)).name==='মোহাম্মদপুর'}catch(e){inMoh=false}if(inMoh&&!was)say('📍 মোহাম্মদপুর: ছিনতাইকারী ঘুরছে, চাকু-বন্দুক নিয়ে ছুটে আসবে!',4.5)}
  if(inMoh){tS-=dt;if(tS<=0){tS=4.5;spawnSnatch()}}
