@@ -885,18 +885,20 @@ Promise.all(['800 1em "Baloo Da 2"','400 1em "Galada"','500 1em "Anek Bangla"'].
         <span class="best" id="menuBest"></span>
       </div>
       </div>
-      <details class="help" id="help" open><summary>কীভাবে খেলবেন</summary>
+      <details class="help" id="help" open>
+        <summary>কীভাবে খেলবেন</summary>
+        <p>রিকশা চালিয়ে ধাক্কায় ক্ষতি বাড়ান, কিন্তু ধরা পড়ার আগে পালান।</p>
         <ul class="rules">
-          <li><b class="ic">💥</b><span><strong>ধাক্কা দেন</strong>রিকশা, অটো, বাইক, দোকান: যত ভাঙবেন, তত জাতীয় ক্ষতি</span></li>
-          <li><b class="ic bus">🚌</b><span><strong>বাস-ট্রাক ছুঁলেই শেষ</strong>নিচে লাল আলো মানে দূরে থাকেন</span></li>
-          <li><b class="ic">🏃</b><span><strong>পাবলিক দৌড়াবে</strong>ধরতে পারলে ধোলাই, তার আগেই পালান</span></li>
-          <li><b class="ic volt">⚡</b><span><strong>চার্জ শেষ?</strong>হলুদ দাগে থামেন, লাইন সরাসরি মেইন থেকে</span></li>
-          <li><b class="ic tk">৳</b><span><strong>সানডে মানডে ক্লোজ</strong>গোলাপি দাগে সার্জেন্টকে চা-পানি, মামলা ক্লোজ</span></li>
-          <li><b class="ic volt">🪪</b><span><strong>গণধোলাই এড়াতে কার্ড ব্যবহার করুন</strong>গণধোলাই শুরু হলে কার্ড ব্যবহার করে বাঁচুন। ১০ বার গাড়ি/বাইক/রিকশায় ধাক্কা দিলে বা পুলিশকে চা-পানির টাকা দিলে +২ গণধোলাই কার্ড (সর্বোচ্চ ১০)</span></li>
+          <li><i class="ic tk">৳</i><span><strong>ক্ষতি বাড়ান</strong>ধাক্কা দিলে জাতীয় ক্ষতি বাড়ে। উল্টো পথে গেলে ক্ষতি ×২।</span></li>
+          <li><i class="ic bus">🚌</i><span><strong>বাস-ট্রাক এড়ান</strong>বড় গাড়ির সামনে পড়লে বিপদ।</span></li>
+          <li><i class="ic">👥</i><span><strong>পাবলিক পিছে!</strong>জনতা ধরার আগেই পালান।</span></li>
+          <li><i class="ic volt">⚡</i><span><strong>চার্জ দেখুন</strong>চার্জ কমলে মিনিম্যাপে চার্জিং পয়েন্ট খুঁজুন। টান দিলে গতি বাড়ে, চার্জও বেশি যায়।</span></li>
+          <li><i class="ic">📢</i><span><strong>হর্ন আর শব্দবোমা</strong>হর্নে পিপপিপ, শব্দবোমায় ঢাকা কাঁপান।</span></li>
         </ul>
-        <div class="keys" id="keysHelp"><span class="k"><kbd>W</kbd><kbd>↑</kbd> চালান</span><span class="k"><kbd>S</kbd><kbd>↓</kbd> ব্রেক</span><span class="k"><kbd>A</kbd><kbd>D</kbd> ঘোরান</span><span class="k"><kbd>Shift</kbd><kbd>Space</kbd> টান দেন</span><span class="k"><kbd>H</kbd> হর্ন</span><span class="k"><kbd>C</kbd> কার্ড দেখান</span><span class="k"><kbd>M</kbd> শব্দ</span></div>
-        <p class="keys-note" id="keysNote">কিছু কিবোর্ড ↑ + ← + Space একসাথে ধরতে পারে না। তখন Space-এর বদলে ডান Shift চাপেন, অথবা ↑ ছেড়ে শুধু Space ধরেন: টান দিলে দেশি রিকশা এমনিই চলে।</p>
+        <div class="keys" id="keysHelp"><span class="k">‹ › ঘোরান</span><span class="k">চালান</span><span class="k">ব্রেক</span><span class="k">টান</span><span class="k">হর্ন</span><span class="k">শব্দবোমা</span></div>
+        <p class="keys-note" id="keysNote">ফোনে স্ক্রিনের বোতাম চাপুন।</p>
       </details>
+
     </div>
     <div class="menu-corner"><button class="wanted-tag" id="wantedOpen" type="button" hidden>মোস্ট ওয়ান্টেড</button></div>
     <a class="disc" href="disclaimer.html">ডিসক্লেইমার</a>
@@ -5054,7 +5056,7 @@ three/build/three.module.js:
 
 </script>
 <script>
-/* Final cleanup: remove every card/chanda mechanic and its instructions. */
+/* Disable card mechanics without removing parent/game UI elements. */
 (function(){
   try {
     if (window.Ex) {
@@ -5066,19 +5068,15 @@ three/build/three.module.js:
     try { localStorage.removeItem('teslaExpress.ganodholaiCards'); } catch(e) {}
     function clean(){
       document.querySelectorAll('#exBox,#txChanda,#txCard,#cardBtn,[data-card-ui],.card-ui,.chanda-card').forEach(function(el){el.remove()});
-      document.querySelectorAll('li,span,p,div,button,small').forEach(function(el){
-        if(!el||!el.textContent)return;
-        var t=el.textContent.trim();
-        if((t.includes('গণধোলাই')&&t.includes('কার্ড')) || (t.includes('কার্ড দেখান')) || (t.includes('চাঁদাবাজ')) || (t.includes('চাঁদা কার্ড')) || (t.includes('সর্বোচ্চ ১০টি')&&t.includes('কার্ড'))){
-          if(el.children.length<4 || el.tagName==='LI' || el.tagName==='BUTTON') el.remove();
-        }
-        if(el.tagName==='SPAN' && el.querySelector('kbd') && el.textContent.includes('কার্ড')) el.remove();
+      /* Keep the full 'কীভাবে খেলবেন' section; remove only the obsolete rule about using a গণধোলাই card. */
+      document.querySelectorAll('.help li, #help li, li').forEach(function(el){
+        var t=(el.textContent||'').trim();
+        if(t.includes('গণধোলাই এড়াতে কার্ড ব্যবহার করুন') || t.includes('গণধোলাই এড়াতে কার্ড ব্যবহার করুন') || t.includes('গণধোলাই এড়াতে কার্ড ব্যাবহার করুন') || t.includes('গণধোলাই এড়াতে কার্ড ব্যাবহার করুন')) el.remove();
       });
-      var pause=document.querySelector('#txPause .tx-note'); if(pause&&pause.textContent.includes('কার্ড')) pause.remove();
+      var pause=document.querySelector('#txPause .tx-note');
+      if(pause&&pause.children.length===0&&pause.textContent.includes('কার্ড')) pause.remove();
     }
-    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',clean);else clean();
-    var mo=new MutationObserver(clean); mo.observe(document.documentElement,{childList:true,subtree:true});
-    setInterval(clean,1200);
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',clean,{once:true}); else clean();
   } catch(e) { console.warn('card cleanup',e); }
 })();
 </script>
