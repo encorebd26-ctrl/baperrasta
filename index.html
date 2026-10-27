@@ -8,15 +8,15 @@
 <meta name="description" content="নানীর রাস্তায় রিকশা চালাও, ট্রাফিক এড়াও আর পয়েন্ট বাড়াও! নানির রাস্তায়, কারও রক্ষা নাই। ফ্রি ব্রাউজার গেম, ফোনেও চলে।">
 <meta name="author" content="Saha Likhon">
 <meta name="theme-color" content="#15110e">
-<link rel="canonical" href="https://baperrasta-eight.vercel.app/">
+<link rel="canonical" href="./">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="NANIR RASTA">
 <meta property="og:type" content="website"><meta property="og:site_name" content="নানীর রাস্তা"><meta property="og:locale" content="bn_BD">
 <meta property="og:title" content="নানীর রাস্তা — নানীর রাস্তায়, কারও রক্ষা নাই!"><meta property="og:description" content="নানীর রাস্তায় রিকশা চালাও, ট্রাফিক এড়াও আর পয়েন্ট বাড়াও! নানির রাস্তায়, কারও রক্ষা নাই। ফ্রি ব্রাউজার গেম, ফোনেও চলে।">
-<meta property="og:url" content="https://baperrasta-eight.vercel.app/"><meta property="og:image" content="https://baperrasta-eight.vercel.app/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://baperrasta-eight.vercel.app/og.jpg">
+<meta property="og:url" content="./"><meta property="og:image" content="nanir-rasta-logo.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="nanir-rasta-logo.jpg">
 <link rel="preload" href="fonts/anek-bangla-400-800-bengali.418c763509.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/anek-bangla-400-800-latin.9d14431a27.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/baloo-da-2-600-800-bengali.323d936108.woff2" as="font" type="font/woff2" crossorigin>
@@ -145,6 +145,7 @@ button:focus-visible { outline: 3px solid var(--led-cyan); outline-offset: 3px; 
 /* the bus death's caption over everything (the map and the buttons covered it), and the driving buttons dimmed under it:
    nothing can be driven while it shows */
 #meme { z-index: 6; }
+.meme-credit { pointer-events: auto; position: relative; z-index: 7; margin-top: 8px; color: #fff; text-decoration: underline; text-underline-offset: 3px; font-size: 13px; }
 #app:has(#meme:not([hidden])) #touch { opacity: .3; transition: opacity .25s; }
 #meme div { font-family: var(--f-display); font-weight: 800; font-size: clamp(30px, 6.4vw, 70px); line-height: 1.05; color: #fff; max-width: 18ch; text-wrap: balance;
   -webkit-text-stroke: 2px #000; paint-order: stroke fill; text-shadow: 4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000; animation: memeIn .35s cubic-bezier(.2, 1.6, .4, 1) both; }
@@ -237,6 +238,7 @@ button:focus-visible { outline: 3px solid var(--led-cyan); outline-offset: 3px; 
 .garland { display: block; height: 26px; width: min(364px, 84%); background: var(--garland) left center / 104px 26px round no-repeat; } /* round: whole tiles, never a cut flower */
 h1.title { font-family: var(--f-display); font-weight: 800; font-size: clamp(52px, min(15vw, 14vh), 132px); line-height: .85; margin: 0; color: var(--hood);
   text-shadow: 5px 5px 0 var(--led-pink), 10px 10px 0 #000; text-wrap: balance; }
+.nanir-tagline { margin: 2px 0 8px; font-weight: 800; font-size: clamp(14px, 2.4vw, 19px); color: #ffca66; text-shadow: 0 2px 0 #4d1510; }
 .title-en { font-family: var(--f-display); font-weight: 600; font-size: clamp(15px, 2.4vw, 19px); letter-spacing: .3em; text-transform: uppercase; opacity: .8; margin-top: -4px; }
 /* the maker's credit, small in the menu's corner, out of the card's way (the owner's name, 22 October 2026) */
 .credit { position: absolute; right: 16px; bottom: calc(env(safe-area-inset-bottom, 0px) + 3px); display: inline-flex; align-items: center; gap: 3px; padding: 4px 2px 1px;
@@ -378,7 +380,7 @@ h1.title { font-family: var(--f-display); font-weight: 800; font-size: clamp(52p
 .sub-x:focus-visible, .linkish:focus-visible { outline: 3px solid var(--led-cyan); outline-offset: 2px; }
 /* মোস্ট ওয়ান্টেড (WANTED): a small poster tag in the menu's top corner, a line on the paper beside the list's offer,
    and the board itself as a police wanted poster over everything */
-/* the menu's top corner: the game's Facebook page (the owner's, 23 October 2026) and মোস্ট ওয়ান্টেড, side by side */
+/* the menu's top corner: creator credit and মোস্ট ওয়ান্টেড, side by side */
 .menu-corner { position: absolute; right: 14px; top: calc(env(safe-area-inset-top, 0px) + 14px); display: flex; align-items: center; gap: 10px; }
 .fb-page { display: grid; place-items: center; width: 40px; height: 40px; box-sizing: border-box; border: 2px solid var(--ink); border-radius: 50%; background: #1877f2; color: #fff;
   box-shadow: 0 4px 0 rgba(0, 0, 0, .35); }
@@ -678,7 +680,7 @@ h1.title { text-shadow: 3px 3px 0 #ae2941, 6px 6px 0 #14372f; }
   <div id="dialogue" hidden aria-live="polite"></div>
   <div id="hint" hidden></div>
 
-  <div id="meme" hidden><div id="memeTop"></div><div id="memeBot"></div></div>
+  <div id="meme" hidden><div id="memeTop"></div><div id="memeBot"></div><a class="credit meme-credit" href="https://facebook.com/saha006" target="_blank" rel="noopener noreferrer" lang="en" aria-label="Made by Saha Likhon — Facebook profile">Made by Saha Likhon</a></div>
   <div id="hud" hidden>
     <div class="hud-top">
       <div id="lossBox">
@@ -728,10 +730,10 @@ h1.title { text-shadow: 3px 3px 0 #ae2941, 6px 6px 0 #14372f; }
       <i class="garland" aria-hidden="true"></i>
       <div>
         <h1 class="title">নানীর রাস্তা</h1>
-        <div class="title-en">NANIR RASTA</div>
+        <div class="title-en">NANIR RASTA</div><p class="nanir-tagline">নানীর রাস্তায়, কারও রক্ষা নাই!</p>
       </div>
       <p class="tagline">নানীর রাস্তায়, কারও রক্ষা নাই!</p>
-      <p class="how"><em><span>আপনার সন্তানকে টেসলা দিন:</span> <span>নো লাইসেন্স, নো ব্রেক।</span></em><span class="dup">ধাক্কায় ক্ষতি বাড়ান। বাস-ট্রাক এড়ান।<br>পাবলিক ধরার আগেই পালান।</span></p>
+      <p class="how"><em><span>নানীর রিকশা চালান:</span> <span>নো লাইসেন্স, নো ব্রেক!</span></em><span class="dup">ধাক্কায় ক্ষতি বাড়ান। বাস-ট্রাক এড়ান।<br>পাবলিক ধরার আগেই পালান।</span></p>
       <p class="dare" id="dare" hidden></p>
       <div class="play-row">
         <button class="cta" id="playBtn" type="button">রাস্তায় নামেন</button>
@@ -740,7 +742,7 @@ h1.title { text-shadow: 3px 3px 0 #ae2941, 6px 6px 0 #14372f; }
       </div>
       <details class="help" id="help" open><summary>কীভাবে খেলবেন</summary>
         <ul class="rules">
-          <li><b class="ic">💥</b><span><strong>ধাক্কা দেন</strong>গাড়ি, বাইক, দোকান: যত ভাঙবেন, তত জাতীয় ক্ষতি</span></li>
+          <li><b class="ic">💥</b><span><strong>ধাক্কা দেন</strong>রিকশা, অটো, বাইক, দোকান: যত ভাঙবেন, তত জাতীয় ক্ষতি</span></li>
           <li><b class="ic bus">🚌</b><span><strong>বাস-ট্রাক ছুঁলেই শেষ</strong>নিচে লাল আলো মানে দূরে থাকেন</span></li>
           <li><b class="ic">🏃</b><span><strong>পাবলিক দৌড়াবে</strong>ধরতে পারলে ধোলাই, তার আগেই পালান</span></li>
           <li><b class="ic volt">⚡</b><span><strong>চার্জ শেষ?</strong>হলুদ দাগে থামেন, লাইন সরাসরি মেইন থেকে</span></li>
@@ -750,8 +752,8 @@ h1.title { text-shadow: 3px 3px 0 #ae2941, 6px 6px 0 #14372f; }
         <p class="keys-note" id="keysNote">কিছু কিবোর্ড ↑ + ← + Space একসাথে ধরতে পারে না। তখন Space-এর বদলে ডান Shift চাপেন, অথবা ↑ ছেড়ে শুধু Space ধরেন: টান দিলে দেশি রিকশা এমনিই চলে।</p>
       </details>
     </div>
-    <div class="menu-corner"><a class="fb-page" href="https://www.facebook.com/baperrastagame" target="_blank" rel="noopener" aria-label="নানীর রাস্তা, ফেসবুক পেজ" title="নানীর রাস্তা, ফেসবুক পেজ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.6 21v-7.2h2.5l.4-3h-2.9V8.9c0-.9.3-1.5 1.5-1.5h1.5V4.7a19 19 0 0 0-2.2-.1c-2.2 0-3.7 1.3-3.7 3.8v2.4H8.3v3h2.4V21z"/></svg></a><button class="wanted-tag" id="wantedOpen" type="button" hidden>মোস্ট ওয়ান্টেড</button></div>
-    <a class="credit" href="about.html" target="_blank" rel="noopener" lang="en">Made by Saha Likhon<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9"/></svg></a>
+    <div class="menu-corner"><button class="wanted-tag" id="wantedOpen" type="button" hidden>মোস্ট ওয়ান্টেড</button></div>
+    <a class="credit" href="https://facebook.com/saha006" target="_blank" rel="noopener noreferrer" lang="en" aria-label="Made by Saha Likhon — Facebook profile">Made by Saha Likhon<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9"/></svg></a>
   </div>
 
   <div id="paper" hidden>
@@ -789,8 +791,8 @@ h1.title { text-shadow: 3px 3px 0 #ae2941, 6px 6px 0 #14372f; }
         <button class="share" id="shareBtn" type="button">ছবি শেয়ার</button>
         <button class="share" id="clipBtn" type="button" hidden>ভিডিও শেয়ার</button>
         </div>
-        <div class="np-record"><span class="best" id="npBest"></span><a class="np-credit np-credit-phone" href="about.html" target="_blank" rel="noopener" lang="en">Made by Saha Likhon<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9"/></svg></a></div>
-        <div class="np-subline" id="npLines"><span id="npWanted" hidden><button class="linkish" id="npWantedOpen" type="button">মোস্ট ওয়ান্টেড তালিকা দেখুন</button></span><form class="np-name" id="npName" hidden novalidate><label class="sub-label" for="npNameIn">পোস্টারে কী নামে উঠবেন?</label><input id="npNameIn" name="name" type="text" maxlength="24" autocomplete="nickname" spellcheck="false" placeholder="পোস্টারে কী নামে উঠবেন?"><button class="np-name-go" id="npNameGo" type="submit">নাম দিন</button><span class="np-name-say" id="npNameSay" role="status" aria-live="polite"></span></form><span id="npSubLine" hidden>নতুন গেম এলে খবর চান? <button class="linkish" id="npSubOpen" type="button">সাবস্ক্রাইব করুন</button></span><a class="np-credit" href="about.html" target="_blank" rel="noopener" lang="en">Made by Saha Likhon<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9"/></svg></a></div>
+        <div class="np-record"><span class="best" id="npBest"></span><a class="np-credit np-credit-phone" href="https://facebook.com/saha006" target="_blank" rel="noopener noreferrer" lang="en" aria-label="Made by Saha Likhon — Facebook profile">Made by Saha Likhon<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9"/></svg></a></div>
+        <div class="np-subline" id="npLines"><span id="npWanted" hidden><button class="linkish" id="npWantedOpen" type="button">মোস্ট ওয়ান্টেড তালিকা দেখুন</button></span><form class="np-name" id="npName" hidden novalidate><label class="sub-label" for="npNameIn">পোস্টারে কী নামে উঠবেন?</label><input id="npNameIn" name="name" type="text" maxlength="24" autocomplete="nickname" spellcheck="false" placeholder="পোস্টারে কী নামে উঠবেন?"><button class="np-name-go" id="npNameGo" type="submit">নাম দিন</button><span class="np-name-say" id="npNameSay" role="status" aria-live="polite"></span></form><span id="npSubLine" hidden>নতুন গেম এলে খবর চান? <button class="linkish" id="npSubOpen" type="button">সাবস্ক্রাইব করুন</button></span><a class="np-credit" href="https://facebook.com/saha006" target="_blank" rel="noopener noreferrer" lang="en" aria-label="Made by Saha Likhon — Facebook profile">Made by Saha Likhon<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9"/></svg></a></div>
         <button class="np-install" id="npInstall" type="button" hidden aria-label="হোম স্ক্রিনে রাখুন: পরের বার এক টাচে, নেট ছাড়াও" title="হোম স্ক্রিনে রাখুন: পরের বার এক টাচে, নেট ছাড়াও"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M12 7v7M9 11l3 3 3-3"/></svg><span>ইনস্টল</span></button>
         <p class="np-install-how" id="npInstallHow" hidden>ব্রাউজারের শেয়ার বোতাম (⬆) চাপুন, তারপর “Add to Home Screen”। আইকন থেকে খুললে পুরো স্ক্রিনে চলবে।</p>
         <p class="np-inapp" id="npInApp" hidden></p>
@@ -825,7 +827,7 @@ h1.title { text-shadow: 3px 3px 0 #ae2941, 6px 6px 0 #14372f; }
         <div class="sub-row"><input id="wNameIn" name="name" type="text" maxlength="24" autocomplete="nickname" spellcheck="false" placeholder="যেমন: উল্টাপথের রাজা"><button class="cta" id="wNameSend" type="submit">নাম দিন</button></div>
         <p class="sub-say" id="wSay" role="status" aria-live="polite"></p>
       </form>
-      <p class="w-fine">প্রতি শনিবার রাত ১২টায় নতুন সপ্তাহ · <a href="https://www.facebook.com/baperrastagame" target="_blank" rel="noopener">ফেসবুক পেজ</a> · <a href="privacy.html" target="_blank" rel="noopener">গোপনীয়তা</a></p>
+      <p class="w-fine">প্রতি শনিবার রাত ১২টায় নতুন সপ্তাহ · <a href="privacy.html" target="_blank" rel="noopener">গোপনীয়তা</a></p>
     </div>
   </div>
   <div id="controls" hidden></div>
