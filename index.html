@@ -735,6 +735,16 @@ h1.title { text-shadow: 3px 3px 0 #ae2941, 6px 6px 0 #14372f; }
       <p class="tagline">নানীর রাস্তায়, কারও রক্ষা নাই!</p>
       <p class="how"><em><span>নানীর রিকশা চালান:</span> <span>নো লাইসেন্স, নো ব্রেক!</span></em><span class="dup">ধাক্কায় ক্ষতি বাড়ান। বাস-ট্রাক এড়ান।<br>পাবলিক ধরার আগেই পালান।</span></p>
       <p class="dare" id="dare" hidden></p>
+      <div class="nanir-vehicle-picker" style="margin:14px auto 12px;max-width:360px;text-align:left">
+        <label for="nanirVehicle" style="display:block;font-weight:800;margin-bottom:7px">🚦 কোন যানবাহন চালাবেন?</label>
+        <select id="nanirVehicle" style="width:100%;padding:12px 14px;border-radius:12px;border:2px solid #d9b46a;background:#fff8e8;color:#24190f;font:inherit;font-weight:700">
+          <option value="rickshaw">🛺 নানীর রঙিন রিকশা — ধীর গতি</option>
+          <option value="auto">🛺 লাল অটোরিকশা — মাঝারি গতি</option>
+          <option value="bike">🏍️ লাল 4V বাইক — বেশি গতি</option>
+          <option value="suv">🚙 আগের SUV</option>
+        </select>
+        <small style="display:block;opacity:.78;margin-top:6px">নির্বাচন বদলালে গেম রিলোড হবে। তারপর “রাস্তায় নামেন” চাপুন।</small>
+      </div>
       <div class="play-row">
         <button class="cta" id="playBtn" type="button">রাস্তায় নামেন</button>
         <span class="best" id="menuBest"></span>
@@ -869,6 +879,9 @@ h1.title { text-shadow: 3px 3px 0 #ae2941, 6px 6px 0 #14372f; }
   </script>
   <script nomodule>window.__bootFail && window.__bootFail('old');</script>
 </div>
+<script>
+(function(){var picker=document.getElementById('nanirVehicle');if(!picker)return;try{picker.value=localStorage.getItem('nanirRastaVehicle')||'rickshaw';}catch(e){picker.value='rickshaw';}picker.addEventListener('change',function(){try{localStorage.setItem('nanirRastaVehicle',picker.value);}catch(e){}location.reload();});try{if(!localStorage.getItem('nanirRastaVehicle'))localStorage.setItem('nanirRastaVehicle','rickshaw');}catch(e){}})();
+</script>
 <script type="module" src="game.e163c1137c.js"></script>
 </body>
 </html>
