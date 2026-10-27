@@ -741,7 +741,6 @@ h1.title { text-shadow: 3px 3px 0 #ae2941, 6px 6px 0 #14372f; }
           <option value="rickshaw">🛺 নানীর রঙিন রিকশা — ধীর গতি</option>
           <option value="auto">🛺 লাল অটোরিকশা — মাঝারি গতি</option>
           <option value="bike">🏍️ লাল 4V বাইক — বেশি গতি</option>
-          <option value="suv">🚙 আগের SUV</option>
         </select>
         <small style="display:block;opacity:.78;margin-top:6px">নির্বাচন বদলালে গেম রিলোড হবে। তারপর “রাস্তায় নামেন” চাপুন।</small>
       </div>
@@ -880,7 +879,7 @@ h1.title { text-shadow: 3px 3px 0 #ae2941, 6px 6px 0 #14372f; }
   <script nomodule>window.__bootFail && window.__bootFail('old');</script>
 </div>
 <script>
-(function(){var picker=document.getElementById('nanirVehicle');if(!picker)return;try{picker.value=localStorage.getItem('nanirRastaVehicle')||'rickshaw';}catch(e){picker.value='rickshaw';}picker.addEventListener('change',function(){try{localStorage.setItem('nanirRastaVehicle',picker.value);}catch(e){}location.reload();});try{if(!localStorage.getItem('nanirRastaVehicle'))localStorage.setItem('nanirRastaVehicle','rickshaw');}catch(e){}})();
+(function(){var picker=document.getElementById('nanirVehicle');if(!picker)return;try{picker.value=['rickshaw','auto','bike'].includes(localStorage.getItem('nanirRastaVehicle'))?localStorage.getItem('nanirRastaVehicle'):'rickshaw';}catch(e){picker.value='rickshaw';}picker.addEventListener('change',function(){try{localStorage.setItem('nanirRastaVehicle',['rickshaw','auto','bike'].includes(picker.value)?picker.value:'rickshaw');}catch(e){}location.reload();});try{if(!['rickshaw','auto','bike'].includes(localStorage.getItem('nanirRastaVehicle')))localStorage.setItem('nanirRastaVehicle','rickshaw');}catch(e){}})();
 </script>
 <script type="module" src="game.e163c1137c.js"></script>
 </body>
