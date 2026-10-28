@@ -5315,7 +5315,7 @@ var skipped=false,NAME_BAD={empty:1,long:1,chars:1,link:1,rude:1};
 var SB_URL="https://mwqxafnztdrhhlikqjts.supabase.co",SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13cXhhZm56dGRyaGhsaWtxanRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxNTgzMTEsImV4cCI6MjEwODczNDMxMX0.ifPBBEdIqcSnnhnkRP9o0sWgQZY2bhbM_5G0qocDMIc";
 function hd(){return{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"}}
 /* সপ্তাহ: শুক্রবার রাত ১২টায় (বাংলাদেশ সময়) নতুন সপ্তাহ। চাবির শুরুতে F: আগের সব স্কোর বাদ, তালিকা নতুন করে শুরু */
-function wk(){var d=new Date(Date.now()+216e5+2592e5),t=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())),n=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-n);var s=new Date(Date.UTC(t.getUTCFullYear(),0,1));return "F"+t.getUTCFullYear()+"-W"+("0"+Math.ceil(((t-s)/864e5+1)/7)).slice(-2)}
+function wk(){var d=new Date(Date.now()+216e5+2592e5),t=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())),n=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-n);var s=new Date(Date.UTC(t.getUTCFullYear(),0,1));return "F"+String(t.getUTCFullYear()).slice(2)+"-W"+("0"+Math.ceil(((t-s)/864e5+1)/7)).slice(-2)}
 function fetchTop(w){return fetch(SB_URL+"/rest/v1/scores?select=name,score&order=score.desc&limit=300"+"&wk="+(w?"eq."+encodeURIComponent(w):"like.F*"),{headers:hd()}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(L){if(!Array.isArray(L))throw 0;var seen={},o=[];L.forEach(function(x){if(!x||!x.name||seen[x.name])return;seen[x.name]=1;o.push({id:x.name===(cr(Vl)||nm())?"me":x.name,name:x.name,loss:x.score})});return o.slice(0,20)})}
 no.on=true;
 no.start=function(){};
@@ -5328,7 +5328,7 @@ var w=wk(),s=self.mine(w);
 if(loss<50||loss<=s.best){if(s.rank)self.line("মোস্ট ওয়ান্টেড: এই সপ্তাহে "+Ie(s.rank)+" নম্বরে");return}
 var name=(cr(Vl)||nm()||Fy).slice(0,24);
 try{var rs=await fetch(SB_URL+"/rest/v1/scores",{method:"POST",headers:Object.assign(hd(),{Prefer:"return=minimal"}),body:JSON.stringify({name:name,score:Math.round(loss),wk:w})});
-if(!rs.ok){try{console.error("scores POST",rs.status,await rs.text())}catch(e){}self.line("⚠️ স্কোর জমা হয়নি (কোড "+rs.status+")");return}
+if(!rs.ok){var em="";try{em=await rs.text();console.error("scores POST",rs.status,em);try{var ej=JSON.parse(em);em=(ej.message||"")+(ej.details?" · "+ej.details:"")}catch(e2){}}catch(e){}self.line("⚠️ স্কোর জমা হয়নি (কোড "+rs.status+(em?": "+em.slice(0,90):"")+")");return}
 var L=await fetchTop(w),i=-1;L.forEach(function(x,k){if(x.name===name)i=k});var rank=i>=0?i+1:null,need=!rank&&L.length>=20?Math.max(1,L[L.length-1].loss-loss+1):0;
 Jh(Wl,JSON.stringify({week:w,best:Math.round(loss),rank:rank,need:need}));self.stale=true;self.rank=rank;
 if(rank)self.line("মোস্ট ওয়ান্টেড: এই সপ্তাহে "+Ie(rank)+" নম্বরে!");else if(need>0)self.line("মোস্ট ওয়ান্টেড তালিকায় উঠতে আরও "+ge(need)+" ক্ষতি লাগবে")}
