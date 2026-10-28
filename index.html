@@ -5274,19 +5274,17 @@ var r;try{r=o2.apply(this,arguments)}finally{if(custom)G.area=a}
 if(custom&&tp)setTimeout(function(){try{_e.show("hint","📍 "+name+" থেকে যাত্রা শুরু!",3.5,0)}catch(e){}},900);
 return r};
 })()}catch(e){console.error("tesla v5",e)}
-/* ===== v6: রিকশা রেস + সাপ্তাহিক লিডারবোর্ড ===== */
+/* ===== v6: রিকশা রেস + চালকের নাম (মোস্ট ওয়ান্টেড) ===== */
 try{(function(){
 var G=window.__tesla&&window.__tesla.garage;if(!G)return;
-var SB_URL="https://mwqxafnztdrhhlikqjts.supabase.co",SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13cXhhZm56dGRyaGhsaWtxanRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxNTgzMTEsImV4cCI6MjEwODczNDMxMX0.ifPBBEdIqcSnnhnkRP9o0sWgQZY2bhbM_5G0qocDMIc"; /* ← Supabase Project URL আর anon key এখানে বসান (supabase_setup.sql দেখুন) */
 var BN=function(n){return String(n).replace(/\d/g,function(d){return"০১২৩৪৫৬৭৮৯"[d]})};
-var fmt=function(n){return BN(String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,","))};
 function sv(){try{localStorage.setItem("teslaExpress.garage2",JSON.stringify(G))}catch(e){}}
 function say(t,d){try{_e.show("hint",t,d||3.5,0)}catch(e){}}
 function news(t){try{si(t,true)}catch(e){}}
 function box(w,h,d,c,x,y,z){var m=new It(new _i(w,h,d),new we({color:c}));m.position.set(x,y,z);return m}
 function ok(x,z){try{var t=Te(x,z);return!!(t.onAv||t.onSt)}catch(e){return false}}
 var css=document.createElement("style");css.textContent="#txRace{position:fixed;z-index:11;left:50%;top:calc(env(safe-area-inset-top,0px) + 8px);transform:translateX(-50%);width:min(300px,70vw);padding:6px 10px;border-radius:12px;background:rgba(8,12,34,.78);color:#fff;font:800 13px var(--f-ui,system-ui);display:none;box-shadow:0 0 0 1.5px rgba(255,203,31,.8)}#txRace i{display:block;height:8px;border-radius:6px;background:rgba(255,255,255,.18);margin-top:4px;overflow:hidden}#txRace i b{display:block;height:100%;width:0;background:#4ee27a}#txRace i.r b{background:#ff6a4d}"+
-"#txLb{position:fixed;inset:0;z-index:72;display:none;place-items:center;padding:14px;background:rgba(4,7,22,.85);color:#f7efe0;font-family:var(--f-ui,system-ui)}#txLb.on{display:grid}#txLb .lb{box-sizing:border-box;width:min(400px,100%);max-height:92vh;overflow:auto;display:grid;gap:8px;padding:16px;border-radius:20px;background:linear-gradient(180deg,rgba(24,38,98,.96),rgba(8,12,34,.98));box-shadow:0 0 0 1.5px rgba(255,203,31,.85)}#txLb h2{margin:0;text-align:center;font:800 24px var(--f-display,system-ui);color:#ffcb1f}#txLb small{text-align:center;opacity:.75}#txLb .row{display:grid;grid-template-columns:34px 1fr auto;gap:8px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.07);font-weight:700}#txLb .row.me{background:rgba(255,203,31,.25)}#txLb input,#txLbBox input{box-sizing:border-box;min-height:42px;padding:0 12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;font:700 16px var(--f-ui,system-ui)}#txLb button,#txLbBox button{min-height:42px;border-radius:12px;border:0;background:#ffcb1f;color:#1d1814;font:800 15px var(--f-ui,system-ui);padding:0 14px;cursor:pointer}#txLbBox{display:grid;gap:6px;margin-top:8px;font:700 14px var(--f-ui,system-ui)}";document.head.appendChild(css);
+"#txAsk{position:fixed;inset:0;z-index:72;display:flex;align-items:center;justify-content:center;box-sizing:border-box;padding:max(16px,env(safe-area-inset-top,0px)) 16px max(16px,env(safe-area-inset-bottom,0px));background:rgba(10,8,6,.72);touch-action:auto;user-select:text;-webkit-user-select:text}#txAsk .w-card{max-height:100%;overflow:auto}#txAskIn{flex:1 1 160px;min-width:0;min-height:46px;box-sizing:border-box;padding:9px 12px;border:2px solid var(--ink);border-radius:10px;background:#fffdf7;color:var(--ink);font:16px/1.2 \"Anek Bangla\",system-ui,sans-serif;user-select:text;-webkit-user-select:text}#txAskIn:focus-visible,#txAskSkip:focus-visible{outline:3px solid var(--led-cyan);outline-offset:2px}#txAskGo{flex:0 0 auto;font-size:18px;min-height:46px;padding:11px 16px 8px;box-shadow:0 4px 0 #9c7400,0 0 0 2px #000}#txAskGo:disabled{opacity:.6}#txAskSkip{align-self:center;min-height:40px;padding:6px 10px;border:0;background:none;color:var(--ink);font:700 14px var(--f-ui,system-ui);text-decoration:underline;text-underline-offset:3px;cursor:pointer;opacity:.8}";document.head.appendChild(css);
 /* ---------- রেস ---------- */
 var hud=document.createElement("div");hud.id="txRace";hud.innerHTML='<div>🏁 রেস: <span id="txRt"></span></div><i><b id="txRp"></b></i><i class="r"><b id="txRr"></b></i>';document.body.appendChild(hud);
 var R=null,nextT=22,rw=0,rl=0,last=performance.now();G.race=G.race||{w:0,l:0};
@@ -5309,38 +5307,40 @@ R.g.position.set(R.sx+R.dx*R.rp+R.px*2.4,0,R.sz+R.dz*R.rp+R.pz*2.4);
 document.getElementById("txRp").style.width=Math.max(0,Math.min(100,pp/R.D*100))+"%";document.getElementById("txRr").style.width=Math.min(100,R.rp/R.D*100)+"%";document.getElementById("txRt").textContent=BN(Math.max(0,Math.round(R.D-pp)))+" মি. বাকি";
 if(pp>=R.D)endRace("w");else if(R.rp>=R.D||R.t>50)endRace("l")}
 /* রেস বন্ধ */
-/* ---------- লিডারবোর্ড ---------- */
-function wk(){var d=new Date(Date.now()+216e5),t=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())),n=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-n);var s=new Date(Date.UTC(t.getUTCFullYear(),0,1));return t.getUTCFullYear()+"-W"+("0"+Math.ceil(((t-s)/864e5+1)/7)).slice(-2)}
-function hd(){return{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"}}
-function lget(){try{return JSON.parse(localStorage.getItem("teslaExpress.board")||"[]")}catch(e){return[]}}
-function top(cb){if(!SB_URL){cb(lget().filter(function(x){return x.wk===wk()}).sort(function(a,c){return c.score-a.score}).slice(0,30));return}
-fetch(SB_URL+"/rest/v1/scores?select=name,score&wk=eq."+wk()+"&order=score.desc&limit=30",{headers:hd()}).then(function(r){return r.json()}).then(function(L){cb(Array.isArray(L)?L:null)}).catch(function(){cb(null)})}
-function submit(name,score,cb){if(!SB_URL){var L=lget();L.push({name:name,score:score,wk:wk()});try{localStorage.setItem("teslaExpress.board",JSON.stringify(L.slice(-200)))}catch(e){}cb(true);return}
-fetch(SB_URL+"/rest/v1/scores",{method:"POST",headers:Object.assign(hd(),{Prefer:"return=minimal"}),body:JSON.stringify({name:name,score:Math.round(score),wk:wk()})}).then(function(r){cb(r.ok)}).catch(function(){cb(false)})}
+/* ---------- চালকের নাম: মোস্ট ওয়ান্টেড তালিকার জন্য (আলাদা লিডারবোর্ড নেই) ---------- */
 function nm(){try{return localStorage.getItem("teslaExpress.name")||""}catch(e){return""}}
 function setNm(v){try{localStorage.setItem("teslaExpress.name",v)}catch(e){}}
 function stop(el){el.addEventListener("keydown",function(e){e.stopPropagation()});el.addEventListener("keyup",function(e){e.stopPropagation()})}
-var ov=document.createElement("div");ov.id="txLb";document.body.appendChild(ov);
-function openLb(){ov.innerHTML='<div class="lb"><h2>🏆 সাপ্তাহিক লিডারবোর্ড</h2><small>'+(SB_URL?"অনলাইন · সবার সাথে":"শুধু এই ফোনে (অনলাইন চালু হয়নি)")+' · সপ্তাহ '+BN(wk())+'</small><div id="txLbL"><small>লোড হচ্ছে…</small></div><input id="txLbN" maxlength="16" placeholder="আপনার নাম"><button id="txLbS">নাম সেভ করুন</button><button id="txLbX" style="background:rgba(255,255,255,.14);color:#fff">বন্ধ করুন</button></div>';ov.classList.add("on");
-var ni=ov.querySelector("#txLbN");ni.value=nm();stop(ni);ov.querySelector("#txLbS").onclick=function(){var v=ni.value.trim().slice(0,16);if(v){setNm(v);ni.value=v}};
-ov.querySelector("#txLbX").onclick=function(){ov.classList.remove("on")};ov.onclick=function(e){if(e.target===ov)ov.classList.remove("on")};
-top(function(L){var d=ov.querySelector("#txLbL");if(!d)return;d.innerHTML="";if(!L){d.innerHTML="<small>লিডারবোর্ড লোড হয়নি, ইন্টারনেট দেখুন</small>";return}if(!L.length){d.innerHTML="<small>এই সপ্তাহে এখনও কেউ নেই, প্রথম হন!</small>";return}
-L.forEach(function(x,i){var r=document.createElement("div");r.className="row"+(x.name===nm()?" me":"");var a=document.createElement("span"),b2=document.createElement("span"),c=document.createElement("span");a.textContent=["🥇","🥈","🥉"][i]||BN(i+1);b2.textContent=x.name;c.textContent="৳"+fmt(x.score);r.appendChild(a);r.appendChild(b2);r.appendChild(c);d.appendChild(r)})})}
-var lb=document.createElement("button");lb.type="button";lb.id="txLbBtn";lb.textContent="🏆 লিডারবোর্ড";lb.onclick=openLb;
-lb.style.cssText="box-sizing:border-box;width:100%;margin:8px 0 0;min-height:46px;border-radius:16px;border:1.5px solid rgba(255,216,77,.6);background:rgba(12,10,8,.55);color:#ffd84d;font:800 16px var(--f-display,system-ui);cursor:pointer";
-setInterval(function(){if(!lb.isConnected){var s=document.getElementById("txMapSec");if(s&&s.parentNode)s.parentNode.insertBefore(lb,s.nextSibling)}},400);
+var skipped=false,pend=cr(Vl)?"":nm(),NAME_BAD={empty:1,long:1,chars:1,link:1,rude:1};
+function ask(go){var old=document.getElementById("txAsk");if(old)old.remove();
+var d=document.createElement("div");d.id="txAsk";
+d.innerHTML='<div class="w-card" role="dialog" aria-modal="true" aria-labelledby="txAskT"><h2 id="txAskT">মোস্ট ওয়ান্টেড</h2><p class="w-lead">চালক হিসেবে আপনার নাম দিন, অথবা মোস্ট ওয়ান্টেড তালিকায় থাকতে চাইলে নাম দিন।</p><form class="w-name" id="txAskF" novalidate><label for="txAskIn">আপনার নাম</label><div class="sub-row"><input id="txAskIn" name="name" type="text" maxlength="24" autocomplete="nickname" spellcheck="false" placeholder="যেমন: উল্টাপথের রাজা"><button class="cta" id="txAskGo" type="submit">শুরু করুন</button></div><p class="sub-say" id="txAskSay" role="status" aria-live="polite"></p></form><button id="txAskSkip" type="button">নাম ছাড়াই খেলুন</button></div>';
+document.body.appendChild(d);
+var inp=d.querySelector("#txAskIn"),btn=d.querySelector("#txAskGo"),sy=d.querySelector("#txAskSay"),busy=false;
+function sayN(t,bad){sy.textContent=t;sy.classList.toggle("bad",!!bad)}
+function done(){d.remove();go()}
+stop(inp);
+d.addEventListener("keydown",function(e){if(e.key==="Escape"){e.preventDefault();e.stopPropagation();skipped=true;done()}});
+d.querySelector("#txAskSkip").onclick=function(){skipped=true;done()};
+d.querySelector("#txAskF").addEventListener("submit",function(e){e.preventDefault();if(busy)return;
+var v=inp.value.trim();if(!v){sayN(lr.empty,true);inp.focus();return}
+busy=true;btn.disabled=true;sayN(lr.busy);
+var job=no.on?no.sendName(v):Promise.resolve({error:"off"});
+job.then(function(res){busy=false;btn.disabled=false;
+if(res&&res.ok){setNm(res.name);pend="";no.named(res.name,"start");done();return}
+if(res&&NAME_BAD[res.error]){sayN(lr[res.error]||lr.error,true);inp.focus();return}
+/* সার্ভার এখন নাম নিতে পারেনি (নেট নেই, বা প্রথম স্কোর এখনও জমা পড়েনি): ফোনে রাখুন, প্রথম স্কোরের পর নিজে থেকে পাঠানো হবে */
+setNm(v);pend=v;done()}).catch(function(){busy=false;btn.disabled=false;setNm(v);pend=v;done()})});
+setTimeout(function(){inp.focus()},100)}
+/* প্রথম স্কোর জমা হলে অপেক্ষায় থাকা নামটা মোস্ট ওয়ান্টেড পোস্টারে পাঠানো */
+var oEnd=no.end;no.end=async function(){var r=await oEnd.apply(this,arguments);
+try{if(pend&&!cr(Vl)&&cr(Wl)){var res=await this.sendName(pend);if(res&&res.ok){setNm(res.name);pend="";this.named(res.name,"start")}else if(res&&NAME_BAD[res.error])pend=""}}catch(e){}return r};
 /* ---------- রান শুরু / শেষ ---------- */
 var oS=st.start;st.start=function(){var me=this,a=arguments;
-if(!nm()){ov.innerHTML='<div class="lb"><h2>🛺 আপনার নাম কী?</h2><small>এই নামেই লিডারবোর্ডে উঠবেন</small><input id="txLbN" maxlength="16" placeholder="আপনার নাম"><button id="txLbS">শুরু করুন</button></div>';ov.onclick=null;ov.classList.add("on");
-var ni=ov.querySelector("#txLbN"),go=function(){var v=ni.value.trim().slice(0,16);if(!v){ni.focus();return}setNm(v);ov.classList.remove("on");st.start.apply(me,a)};stop(ni);ni.addEventListener("keydown",function(e){if(e.key==="Enter")go()});ov.querySelector("#txLbS").onclick=go;setTimeout(function(){ni.focus()},100);return}
+if(!cr(Vl)&&!nm()&&!skipped){ask(function(){st.start.apply(me,a)});return}
 if(R)endRace();rw=0;rl=0;nextT=1e9;return oS.apply(this,arguments)};
 var oP=st.showPaper;st.showPaper=function(){var r=oP.apply(this,arguments);
-try{var rec=document.querySelector("#paper .np-record");if(!rec)return r;
-if(rw+rl){var s=document.createElement("span");s.style.cssText="display:block;margin-top:4px;font:800 13px var(--f-ui,system-ui)";s.textContent="🏁 রেস: জয় "+BN(rw)+" · হার "+BN(rl);rec.appendChild(s)}
-var sc=Math.round(st.loss||0);if(sc<=0)return r;var old=document.getElementById("txLbBox");if(old)old.remove();
-var bx=document.createElement("div");bx.id="txLbBox";rec.appendChild(bx);
-var send=function(name){bx.innerHTML="<span>🏆 লিডারবোর্ডে পাঠানো হচ্ছে…</span>";submit(name,sc,function(o){bx.innerHTML="";var t=document.createElement("span");t.textContent=o?"🏆 ৳"+fmt(sc)+" লিডারবোর্ডে জমা হয়েছে!":"⚠️ জমা হয়নি, ইন্টারনেট দেখুন";bx.appendChild(t);var bt=document.createElement("button");bt.textContent="লিডারবোর্ড দেখুন";bt.onclick=openLb;bx.appendChild(bt)})};
-send(nm()||"অজানা চালক")
+try{var rec=document.querySelector("#paper .np-record");if(rec&&rw+rl){var s=document.createElement("span");s.style.cssText="display:block;margin-top:4px;font:800 13px var(--f-ui,system-ui)";s.textContent="🏁 রেস: জয় "+BN(rw)+" · হার "+BN(rl);rec.appendChild(s)}
 }catch(e){}return r};
 })()}catch(e){console.error("tesla v6",e)}
 
