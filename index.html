@@ -5316,23 +5316,33 @@ var SB_URL="https://mwqxafnztdrhhlikqjts.supabase.co",SB_KEY="eyJhbGciOiJIUzI1Ni
 function hd(){return{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"}}
 /* সপ্তাহ: শুক্রবার রাত ১২টায় (বাংলাদেশ সময়) নতুন সপ্তাহ। ডাটাবেসের scores_wk_check নিয়মে YYYY-Www ছাড়া চলে না, তাই বছরে ৭০০০ যোগ (৯০২৬-W৪৪): আগের (২০২x) সব স্কোর বাদ, তালিকা নতুন করে শুরু */
 function wk(){var d=new Date(Date.now()+216e5+2592e5),t=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())),n=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-n);var s=new Date(Date.UTC(t.getUTCFullYear(),0,1));return (7000+t.getUTCFullYear())+"-W"+("0"+Math.ceil(((t-s)/864e5+1)/7)).slice(-2)}
-function fetchTop(w){return fetch(SB_URL+"/rest/v1/scores?select=name,score&order=score.desc&limit=300"+"&wk="+(w?"eq."+encodeURIComponent(w):"gte.9000"),{headers:hd()}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(L){if(!Array.isArray(L))throw 0;var seen={},o=[];L.forEach(function(x){if(!x||!x.name||seen[x.name])return;seen[x.name]=1;o.push({id:x.name===(cr(Vl)||nm())?"me":x.name,name:x.name,loss:x.score})});return o.slice(0,20)})}
+function sb(path,opt){var c=window.AbortController?new AbortController():null,tm=setTimeout(function(){if(c)c.abort()},12000);opt=Object.assign({headers:hd()},opt||{});if(c)opt.signal=c.signal;return fetch(SB_URL+"/rest/v1/"+path,opt).then(function(r){clearTimeout(tm);return r},function(e){clearTimeout(tm);throw e})}
+function fetchTop(w){return sb("scores?select=name,score&order=score.desc&limit=100&wk="+(w?"eq."+encodeURIComponent(w):"gte.9000")).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(L){if(!Array.isArray(L))throw 0;var seen={},o=[];L.forEach(function(x){if(!x||!x.name||seen[x.name])return;seen[x.name]=1;o.push({name:x.name,loss:x.score})});return o.slice(0,20)})}
+function mark(L){var me=cr(Vl)||nm();return(L||[]).map(function(x){return{id:x.name===me?"me":x.name,name:x.name,loss:x.loss}})}
+var CK="teslaExpress.boardCache";
 no.on=true;
 no.start=function(){};
 no.sendName=function(v){v=(v||"").trim();if(!v)return Promise.resolve({error:"empty"});if(v.length>24)return Promise.resolve({error:"long"});if(/https?:|www\.|\.(com|net|org|bd)\b/i.test(v))return Promise.resolve({error:"link"});if(/[<>{}\[\]\\\/@#$%^&*=+|~`"]/.test(v))return Promise.resolve({error:"chars"});return Promise.resolve({ok:true,name:v})};
-no.load=async function(){var self=this;self.board=null;self.wait("তালিকা আসছে…");
-try{var w=wk(),r=await Promise.all([fetchTop(w),fetchTop("")]);self.me="me";self.board={ok:true,week:w,top:r[0],all:r[1]}}catch(e){self.wait("তালিকা আনা গেল না। নেট আছে তো?");return}
-self.show(self.tab)};
+no.load=async function(){var self=this,w=wk(),shown=false;self.board=null;
+try{var c=JSON.parse(localStorage.getItem(CK)||"null");if(c&&c.week===w){self.me="me";self.board={ok:true,week:w,top:mark(c.top),all:mark(c.all)};shown=true;self.show(self.tab)}}catch(e){}
+if(!shown)self.wait("তালিকা আসছে…");
+try{var r=await Promise.all([fetchTop(w),fetchTop("")]);try{localStorage.setItem(CK,JSON.stringify({week:w,top:r[0],all:r[1]}))}catch(e){}
+self.me="me";self.board={ok:true,week:w,top:mark(r[0]),all:mark(r[1])}}
+catch(e){if(!shown)self.wait("তালিকা আনা গেল না। নেট ধীর বা নেই, বন্ধ করে আবার খুলুন।");return}
+try{self.show(self.tab)}catch(e){self.wait("তালিকা দেখানো গেল না।")}};
 no.end=async function(o){var self=this,loss=o.loss;F("#npWanted").hidden=false;F("#npName").hidden=true;self.rank=null;self.line("মোস্ট ওয়ান্টেড তালিকা দেখুন");
 var w=wk(),s=self.mine(w);
 if(loss<50||loss<=s.best){if(s.rank)self.line("মোস্ট ওয়ান্টেড: এই সপ্তাহে "+Ie(s.rank)+" নম্বরে");return}
 var name=(cr(Vl)||nm()||Fy).slice(0,24);
-try{var rs=await fetch(SB_URL+"/rest/v1/scores",{method:"POST",headers:Object.assign(hd(),{Prefer:"return=minimal"}),body:JSON.stringify({name:name,score:Math.round(loss),wk:w})});
+self.line("⏳ স্কোর পাঠানো হচ্ছে…");
+try{var rs=await sb("scores",{method:"POST",headers:Object.assign(hd(),{Prefer:"return=minimal"}),body:JSON.stringify({name:name,score:Math.round(loss),wk:w})});
 if(!rs.ok){var em="";try{em=await rs.text();console.error("scores POST",rs.status,em);try{var ej=JSON.parse(em);em=(ej.message||"")+(ej.details?" · "+ej.details:"")}catch(e2){}}catch(e){}self.line("⚠️ স্কোর জমা হয়নি (কোড "+rs.status+(em?": "+em.slice(0,90):"")+")");return}
+Jh(Wl,JSON.stringify({week:w,best:Math.round(loss),rank:null,need:0}));self.stale=true;
+self.line("✅ স্কোর জমা হয়েছে। মোস্ট ওয়ান্টেড তালিকা দেখুন");
 var L=await fetchTop(w),i=-1;L.forEach(function(x,k){if(x.name===name)i=k});var rank=i>=0?i+1:null,need=!rank&&L.length>=20?Math.max(1,L[L.length-1].loss-loss+1):0;
-Jh(Wl,JSON.stringify({week:w,best:Math.round(loss),rank:rank,need:need}));self.stale=true;self.rank=rank;
+Jh(Wl,JSON.stringify({week:w,best:Math.round(loss),rank:rank,need:need}));self.rank=rank;
 if(rank)self.line("মোস্ট ওয়ান্টেড: এই সপ্তাহে "+Ie(rank)+" নম্বরে!");else if(need>0)self.line("মোস্ট ওয়ান্টেড তালিকায় উঠতে আরও "+ge(need)+" ক্ষতি লাগবে")}
-catch(e){self.line("⚠️ স্কোর জমা হয়নি, নেট দেখুন")}};
+catch(e){if(!self.rank&&F("#npWantedOpen").textContent.indexOf("✅")<0)self.line("⚠️ স্কোর জমা হয়নি, নেট ধীর বা নেই")}};
 function ask(go){var old=document.getElementById("txAsk");if(old)old.remove();
 var d=document.createElement("div");d.id="txAsk";
 d.innerHTML='<div class="w-card" role="dialog" aria-modal="true" aria-labelledby="txAskT"><h2 id="txAskT">মোস্ট ওয়ান্টেড</h2><p class="w-lead">চালক হিসেবে আপনার নাম দিন, অথবা মোস্ট ওয়ান্টেড তালিকায় থাকতে চাইলে নাম দিন।</p><form class="w-name" id="txAskF" novalidate><label for="txAskIn">আপনার নাম</label><div class="sub-row"><input id="txAskIn" name="name" type="text" maxlength="24" autocomplete="nickname" spellcheck="false" placeholder="যেমন: উল্টাপথের রাজা"><button class="cta" id="txAskGo" type="submit">শুরু করুন</button></div><p class="sub-say" id="txAskSay" role="status" aria-live="polite"></p></form><button id="txAskSkip" type="button">নাম ছাড়াই খেলুন</button></div>';
