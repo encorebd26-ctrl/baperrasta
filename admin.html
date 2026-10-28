@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Tesla Express · Admin</title>
+<style>
+:root{color-scheme:light dark;--bg:#eceff3;--fg:#0f1b2d;--card:#fff;--bd:#cdd5df;--ac:#f5b800;--rd:#d92d20}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1626;--fg:#e8edf5;--card:#15233a;--bd:#2a3b57}}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.45 system-ui,"Noto Sans Bengali","Hind Siliguri",sans-serif;background:var(--bg);color:var(--fg)}
+header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:2px solid var(--ac);padding:8px 12px;padding-top:max(8px,env(safe-area-inset-top))}
+h1{font-size:16px;margin:0 0 6px}
+nav,.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+nav{overflow-x:auto;flex-wrap:nowrap;margin-top:6px}
+.row{margin:8px 0}
+button,input,select,textarea{font:inherit;color:inherit;background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:6px 10px;max-width:100%}
+button{cursor:pointer;white-space:nowrap}
+button.p{background:var(--ac);border-color:var(--ac);color:#111;font-weight:700}
+button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+button.d{color:var(--rd)}
+main{padding:10px 12px 70px;max-width:900px;margin:auto}
+.it{display:flex;gap:6px;flex-wrap:wrap;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:8px;margin:6px 0}
+.it input,.it textarea{flex:1;min-width:110px;resize:vertical}
+.chg{border-color:var(--ac)!important;box-shadow:0 0 0 1px var(--ac)}
+textarea.code{width:100%;min-height:55vh;font:13px/1.4 ui-monospace,monospace}
+iframe{width:100%;height:60vh;border:1px solid var(--bd);border-radius:8px;background:#fff}
+.mut{opacity:.65;font-size:13px}
+pre{overflow:auto;background:var(--bg);padding:8px;border-radius:8px;font-size:12px}
+#msg{position:fixed;left:10px;right:10px;bottom:max(10px,env(safe-area-inset-bottom));background:var(--fg);color:var(--bg);padding:9px 12px;border-radius:8px;display:none;z-index:9;white-space:pre-wrap}
+</style></head><body>
+<header><h1>🛠 Tesla Express · Admin</h1>
+<div class="row" style="margin:0"><button id="conn" class="p">Connect folder</button><button id="open">Open files</button><span id="st" class="mut"></span></div>
+<nav id="nav"></nav></header>
+<main id="m"></main><div id="msg"></div>
+<script>
+const $=s=>document.querySelector(s),E=(t,p,...c)=>{const e=Object.assign(document.createElement(t),p||{});e.append(...c);return e};
+const SB='https://mwqxafnztdrhhlikqjts.supabase.co',KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13cXhhZm56dGRyaGhsaWtxanRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxNTgzMTEsImV4cCI6MjEwODczNDMxMX0.ifPBBEdIqcSnnhnkRP9o0sWgQZY2bhbM_5G0qocDMIc';
+const H={apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json',Prefer:'return=representation'};
+const S={idx:'',pg:{'disclaimer.html':null,'editor.html':null},cur:'disclaimer.html',pgD:{},dir:null,pend:{},del:new Set(),map:{},mapD:0,ed:{},items:[],rows:[],q:'',where:'all',wkf:''};
+let T='lb';
+const MR=/(\bdd=\{)((?:\w+:"[^"]+\.(?:mp3|ogg|wav|m4a)",?)+)(\})/;
+const toast=t=>{const m=$('#msg');m.textContent=t;m.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>m.style.display='none',5500)};
+const pick=(a,cb,mul)=>{const i=E('input',{type:'file',accept:a,multiple:!!mul});i.onchange=()=>[...i.files].forEach(cb);i.click()};
+function wk(){var d=new Date(Date.now()+216e5+2592e5),t=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())),n=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-n);var s=new Date(Date.UTC(t.getUTCFullYear(),0,1));return(7000+t.getUTCFullYear())+"-W"+("0"+Math.ceil(((t-s)/864e5+1)/7)).slice(-2)}
+
+/* ---------- file access: folder (direct write) or fetch/download ---------- */
+async function fh(path,create){let d=S.dir,p=path.split('/'),n=p.pop();for(const x of p)d=await d.getDirectoryHandle(x,{create});return d.getFileHandle(n,{create})}
+async function rd(path){
+  if(S.dir){try{return await(await(await fh(path)).getFile()).text()}catch(e){return null}}
+  try{const r=await fetch(path,{cache:'no-store'});return r.ok?await r.text():null}catch(e){return null}}
+async function wr(path,data){
+  if(S.dir){const w=await(await fh(path,1)).createWritable();await w.write(data);await w.close();return}
+  const a=E('a',{href:URL.createObjectURL(data instanceof Blob?data:new Blob([data])),download:path.split('/').pop()});a.click()}
+async function rm(path){if(!S.dir)return;try{let d=S.dir,p=path.split('/'),n=p.pop();for(const x of p)d=await d.getDirectoryHandle(x);await d.removeEntry(n)}catch(e){}}
+
+/* ---------- parse index.html: audio map + editable Bengali text ---------- */
+function scan(){
+  const s=S.idx;S.map={};S.mapD=0;S.items=[];S.ed={};
+  const m=s.match(MR);if(m)m[2].replace(/(\w+):"([^"]+)"/g,(_,k,v)=>S.map[k]=v);
+  const ms=s.indexOf('<script type="module">'),D=/["'`<>\\\n{}$]/,R=/[\u0980-\u09FF]/g;
+  while(R.lastIndex<s.length){
+    const x=R.exec(s);if(!x)break;
+    let a=x.index,b=a;
+    while(a>0&&!D.test(s[a-1]))a--;
+    while(b<s.length&&!D.test(s[b]))b++;
+    R.lastIndex=b+1;
+    const t=s.slice(a,b);
+    if(!/^\s*(\/\*|\/\/)/.test(t))S.items.push({i:a,t,h:ms<0||a<ms});
+  }}
+const san=v=>v.replace(/["'`]/g,c=>c=='"'?'”':'’').replace(/\\/g,'/').replace(/[<>$\n\r]/g,' ');
+async function saveIdx(){
+  if(!S.idx)return toast('index.html not loaded');
+  try{
+    let s=S.idx;
+    Object.keys(S.ed).map(Number).sort((a,b)=>b-a).forEach(k=>{const it=S.items[k];s=s.slice(0,it.i)+san(S.ed[k])+s.slice(it.i+it.t.length)});
+    if(S.mapD){const body=Object.entries(S.map).map(([k,v])=>k+':"'+v+'"').join(',');s=s.replace(MR,(_,a,b,c)=>a+body+c)}
+    if(S.dir)await wr('index.backup.html',S.idx);
+    for(const[p,f]of Object.entries(S.pend))await wr(p,f);
+    for(const p of S.del)await rm(p);
+    await wr('index.html',s);
+    S.idx=s;S.pend={};S.del.clear();scan();render();
+    toast(S.dir?'Saved. Backup: index.backup.html':'Downloaded. Put index.html in the project folder and audio in clips/');
+  }catch(e){toast('Save failed: '+e)}}
+
+/* ---------- leaderboard (Supabase scores table) ---------- */
+const flt=r=>r.id!=null?'id=eq.'+r.id:`name=eq.${encodeURIComponent(r.name)}&wk=eq.${encodeURIComponent(r.wk)}&score=eq.${r.score}`;
+async function lb(){
+  try{const r=await fetch(SB+'/rest/v1/scores?select=*&order=score.desc&limit=300'+(S.wkf?'&wk=eq.'+encodeURIComponent(S.wkf):''),{headers:H});
+    if(!r.ok)throw await r.text();S.rows=await r.json();if(T=='lb')render()}
+  catch(e){toast('Load failed: '+e)}}
+async function mod(method,r,body){
+  try{const x=await fetch(SB+'/rest/v1/scores?'+flt(r),{method,headers:H,body:body&&JSON.stringify(body)});
+    const j=await x.json().catch(()=>[]);if(!x.ok)throw JSON.stringify(j);
+    if(!j.length)throw 'Blocked (0 rows changed). Run the SQL shown at the bottom.';
+    toast(method=='DELETE'?'Deleted':'Saved');lb()}
+  catch(e){toast('Failed: '+e)}}
+function vLb(m){
+  const w=E('input',{placeholder:'week e.g. 9026-W44 (empty = all)',value:S.wkf});
+  m.append(E('div',{className:'row'},w,
+    E('button',{textContent:'Load',className:'p',onclick:()=>{S.wkf=w.value.trim();lb()}}),
+    E('button',{textContent:'This week',onclick:()=>{w.value=S.wkf=wk();lb()}}),
+    E('button',{textContent:'Delete whole week',className:'d',onclick:async()=>{
+      const k=w.value.trim();if(!k)return toast('Type a week first');
+      if(!confirm('Delete ALL scores of '+k+'?'))return;
+      try{const x=await fetch(SB+'/rest/v1/scores?wk=eq.'+encodeURIComponent(k),{method:'DELETE',headers:H}),j=await x.json();
+        if(!x.ok||!j.length)throw x.ok?'0 rows (blocked?)':JSON.stringify(j);toast('Deleted '+j.length);lb()}
+      catch(e){toast('Failed: '+e)}}})));
+  const n=E('input',{placeholder:'name'}),sc=E('input',{placeholder:'score',type:'number'}),aw=E('input',{value:wk()});
+  m.append(E('div',{className:'it'},n,sc,aw,E('button',{textContent:'+ Add',className:'p',onclick:async()=>{
+    try{const x=await fetch(SB+'/rest/v1/scores',{method:'POST',headers:H,body:JSON.stringify({name:n.value.trim().slice(0,24),score:Math.round(+sc.value),wk:aw.value.trim()})});
+      if(!x.ok)throw await x.text();toast('Added');lb()}catch(e){toast('Failed: '+e)}}})));
+  m.append(E('p',{className:'mut',textContent:S.rows.length+' rows'}));
+  S.rows.forEach(r=>{
+    const a=E('input',{value:r.name}),b=E('input',{type:'number',value:r.score}),c=E('input',{value:r.wk});
+    m.append(E('div',{className:'it'},a,b,c,
+      E('button',{textContent:'Save',onclick:()=>mod('PATCH',r,{name:a.value.trim(),score:Math.round(+b.value),wk:c.value.trim()})}),
+      E('button',{textContent:'✕',className:'d',onclick:()=>confirm('Delete '+r.name+'?')&&mod('DELETE',r)})))});
+  m.append(E('details',{innerHTML:'<summary>Edit/delete blocked? Run this in Supabase → SQL editor</summary><pre>create policy "admin update" on scores for update using (true) with check (true);\ncreate policy "admin delete" on scores for delete using (true);</pre><p class="mut">These policies let anyone holding the public key edit or delete scores.</p>'}))}
+
+/* ---------- audio clips ---------- */
+function clip(f,k){
+  let x=(f.name.split('.').pop()||'').toLowerCase();if(!/^(mp3|ogg|wav|m4a)$/.test(x))x='mp3';
+  k=k||f.name.replace(/\.[^.]*$/,'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')||'clip'+Date.now();
+  const o=S.map[k],p='clips/'+k.replace(/_/g,'-')+'.'+Date.now().toString(36)+'.'+x;
+  if(o){S.del.add(o);delete S.pend[o]}
+  S.pend[p]=f;S.map[k]=p;S.mapD=1;render()}
+function vAu(m){
+  const ks=Object.keys(S.map);
+  if(!ks.length)m.append(E('p',{className:'mut',textContent:'No clips found. Load index.html first (Connect folder / Open files).'}));
+  ks.forEach(k=>{const p=S.map[k];
+    m.append(E('div',{className:'it'},E('b',{textContent:k}),E('span',{className:'mut',textContent:p+(S.pend[p]?' (new)':'')}),
+      E('button',{textContent:'▶',onclick:()=>new Audio(S.pend[p]?URL.createObjectURL(S.pend[p]):p).play().catch(()=>toast('Cannot play'))}),
+      E('button',{textContent:'Replace',onclick:()=>pick('audio/*',f=>clip(f,k))}),
+      E('button',{textContent:'✕',className:'d',onclick:()=>{if(!confirm('Remove '+k+'? The game may still call this sound.'))return;delete S.map[k];S.del.add(p);delete S.pend[p];S.mapD=1;render()}})))});
+  m.append(E('div',{className:'row'},
+    E('button',{textContent:'+ Add audio',onclick:()=>pick('audio/*',f=>clip(f),1)}),
+    E('button',{textContent:'Save',className:'p',onclick:saveIdx}),
+    E('span',{className:'mut',textContent:(Object.keys(S.pend).length+S.del.size)+' pending changes'})));
+  m.append(E('p',{className:'mut',textContent:'Tip: a new file named like an existing key (e.g. punch.mp3) replaces that sound.'}))}
+
+/* ---------- game text (menu, newspaper, headlines, dialogue …) ---------- */
+function vTx(m){
+  const box=E('div');
+  const list=()=>{
+    box.replaceChildren();let n=0,t=0;
+    S.items.forEach((it,k)=>{
+      const cur=S.ed[k]??it.t;
+      if((S.where=='h'&&!it.h)||(S.where=='s'&&it.h)||(S.q&&!cur.includes(S.q)&&!it.t.includes(S.q)))return;
+      t++;if(n>=120)return;n++;
+      const a=E('textarea',{rows:Math.min(4,1+(cur.length/55|0)),value:cur,className:S.ed[k]!=null?'chg':'',oninput:e=>{S.ed[k]=e.target.value;a.className='chg'}});
+      box.append(E('div',{className:'it'},a,E('button',{textContent:'✕',className:'d',onclick:()=>{S.ed[k]='';a.value='';a.className='chg'}})))});
+    box.prepend(E('p',{className:'mut',textContent:t+' matches (showing '+n+') · '+Object.keys(S.ed).length+' edited · ✕ = blank it'}))};
+  m.append(E('div',{className:'row'},
+    E('input',{placeholder:'search text…',value:S.q,oninput:e=>{S.q=e.target.value;list()}}),
+    E('select',{innerHTML:'<option value=all>All</option><option value=h>Page (menu, newspaper)</option><option value=s>Script (headlines, dialogue)</option>',value:S.where,onchange:e=>{S.where=e.target.value;list()}}),
+    E('button',{textContent:'Save index.html',className:'p',onclick:saveIdx})),box);
+  list()}
+
+/* ---------- disclaimer.html / editor.html ---------- */
+function vPg(m){
+  const sel=E('select',{innerHTML:'<option>disclaimer.html</option><option>editor.html</option>',value:S.cur,onchange:e=>{S.cur=e.target.value;render()}}),t=S.pg[S.cur];
+  m.append(E('div',{className:'row'},sel));
+  if(t==null){
+    m.append(E('p',{className:'mut',textContent:S.cur+' not found. Upload it, connect the project folder, or start a new one.'}),
+      E('div',{className:'row'},
+        E('button',{textContent:'Upload '+S.cur,onclick:()=>pick('.html',async f=>{S.pg[S.cur]=await f.text();S.pgD[S.cur]=1;render()})}),
+        E('button',{textContent:'Start empty',onclick:()=>{S.pg[S.cur]='<!doctype html>\n<html lang="bn"><head><meta charset="utf-8"><title></title></head><body>\n\n</body></html>';S.pgD[S.cur]=1;render()}})));
+    return}
+  let vis=0;
+  const ta=E('textarea',{className:'code',value:t,oninput:()=>{S.pg[S.cur]=ta.value;S.pgD[S.cur]=1}}),fr=E('iframe',{hidden:true});
+  const sync=()=>{if(vis){const d=fr.contentDocument;d.designMode='off';S.pg[S.cur]='<!doctype html>\n'+d.documentElement.outerHTML;ta.value=S.pg[S.cur];S.pgD[S.cur]=1}};
+  const show=v=>{vis=v;ta.hidden=!!v;fr.hidden=!v;if(v){fr.onload=()=>{fr.contentDocument.designMode='on'};fr.srcdoc=S.pg[S.cur]}};
+  m.append(E('div',{className:'row'},
+    E('button',{textContent:'Code',onclick:()=>{sync();show(0)}}),
+    E('button',{textContent:'Visual edit',onclick:()=>{sync();show(1)}}),
+    E('button',{textContent:'Load from file',onclick:()=>pick('.html',async f=>{S.pg[S.cur]=await f.text();S.pgD[S.cur]=1;render()})}),
+    E('button',{textContent:'Save',className:'p',onclick:async()=>{try{sync();await wr(S.cur,S.pg[S.cur]);S.pgD[S.cur]=0;if(vis)fr.contentDocument.designMode='on';toast('Saved '+S.cur)}catch(e){toast('Save failed: '+e)}}})),ta,fr)}
+
+/* ---------- shell ---------- */
+function render(){
+  $('#nav').replaceChildren(...[['lb','Leaderboard'],['au','Audio'],['tx','Game text'],['pg','Disclaimer / Editor']].map(([k,l])=>E('button',{textContent:l,className:T==k?'on':'',onclick:()=>{T=k;render()}})));
+  const m=$('#m');m.replaceChildren();({lb:vLb,au:vAu,tx:vTx,pg:vPg})[T](m);
+  $('#st').textContent=(S.dir?'📁 folder · ':'')+(S.idx?'index.html ✓':'index.html ✗')}
+async function load(){S.idx=await rd('index.html')||'';for(const k in S.pg)S.pg[k]=await rd(k);scan();render();lb()}
+$('#conn').onclick=async()=>{try{S.dir=await showDirectoryPicker({mode:'readwrite'});await load();toast('Folder connected: Save writes files directly')}catch(e){S.dir=null;toast('Folder access unavailable here (use desktop Chrome/Edge). Use Open files instead.')}};
+$('#open').onclick=()=>pick('.html,audio/*',async f=>{
+  if(f.name=='index.html'){S.idx=await f.text();scan()}
+  else if(f.name in S.pg)S.pg[f.name]=await f.text();
+  else if(/\.(mp3|ogg|wav|m4a)$/i.test(f.name))return clip(f);
+  else toast('Skipped '+f.name);
+  render()},1);
+load();
+</script></body></html>
