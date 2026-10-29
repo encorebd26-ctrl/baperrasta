@@ -5243,6 +5243,106 @@ try{[
 "বাসের হেলপার বললেন ‘সামনে জায়গা আছে’, সামনে ছিল আরেকটি বাস",
 "ঢাকায় জ্যাম এতটাই বেড়েছে, মানুষ রাস্তায় বসেই অফিসের মিটিং সারছে"
 ].forEach(function(t){if(d0.indexOf(t)<0)d0.push(t)})}catch(e){}
+/* ===== নতুন: চলন্ত মেট্রোরেল · শাহবাগ মিছিল · আরও "এই টাকায় হতো" ===== */
+try{
+x0.push({say:"ঢাকা এলিভেটেড এক্সপ্রেসওয়ের {n}",perM:8940e7/46730,fact:"৪৬.৭৩ কিমি (র‍্যাম্পসহ) প্রকল্পের সংশোধিত ব্যয় ৮,৯৪০ কোটি টাকা"});
+x0.push({say:"পদ্মা রেল সংযোগের {n} লাইন",perM:39247e7/169000,fact:"ঢাকা-যশোর রেল সংযোগ প্রকল্পের আনুমানিক ব্যয় ৩৯,২৪৭ কোটি টাকা"});
+}catch(e){console.error("facts3",e)}
+try{
+var MT=null,mtT=20,sbCool=12,lastN=performance.now();
+function mkTrain(){var g=new yn();for(var i=0;i<4;i++){var z=i*10.6-16;g.add(box(2.9,2.8,10,0x1f7a4d,0,0,z));g.add(box(3,.55,10.05,0xffffff,0,-.55,z));g.add(box(2.95,.75,9.2,0x16222e,0,.55,z))}g.add(box(2.2,.5,.3,0xfff3b0,0,-.2,15.2));return g}
+function launchTrain(){var dx=b.fx,dz=b.fz,rx=b.rx,rz=b.rz,g=mkTrain();var x=b.x+dx*170+rx*16,z=b.z+dz*170+rz*16;g.position.set(x,9.4,z);g.rotation.y=Math.atan2(-dx,-dz);Ce.add(g);MT={g:g,vx:-dx*30,vz:-dz*30,t:0};try{say("🚇 মেট্রোরেল মাথার ওপর দিয়ে ছুটে আসছে!",3)}catch(e){}try{news("মেট্রোরেল ঠিক সময়ে, নিচে রিকশা ঠিক জ্যামে")}catch(e){}}
+function dropTrain(){if(MT){Ce.remove(MT.g);MT=null}}
+var SB=null;function sbPos(){if(SB)return SB;var p=findArea("শাহবাগ");if(!p)return null;try{SB={x:Ze(p[0]),z:Xe(p[1])}}catch(e){}return SB}
+function tick3(now){requestAnimationFrame(tick3);var dt=Math.min(.05,(now-lastN)/1e3);lastN=now;if(window.__paused)return;
+if(st.state!=="play"){dropTrain();return}
+if(MT){MT.t+=dt;MT.g.position.x+=MT.vx*dt;MT.g.position.z+=MT.vz*dt;if(MT.t>12)dropTrain()}else{mtT-=dt;if(mtT<=0){launchTrain();mtT=40+Math.random()*30}}
+sbCool-=dt;if(sbCool<=0){var p=sbPos();if(p&&Math.hypot(b.x-p.x,b.z-p.z)<140){var has=false;for(var i=0;i<ents.length;i++)if(ents[i].k==="prc")has=true;if(!has){sProc();try{news("শাহবাগ মোড়ে মিছিল, যানজটে আটকা রিকশা বলল ‘আমি তো শুধু ঘুরছিলাম’")}catch(e){}}sbCool=30}else sbCool=4}}
+requestAnimationFrame(tick3);
+var oS3=st.start;st.start=function(){dropTrain();mtT=20;sbCool=12;return oS3.apply(this,arguments)};
+}catch(e){console.error("metro/shahbag",e)}
+
+/* ===== ভাঙাচোরা রাস্তা + মাল্টিপ্লেয়ার (একই ফোনে ২ জন · অনলাইন রুম) ===== */
+try{
+var SBU="https://mwqxafnztdrhhlikqjts.supabase.co",SBK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13cXhhZm56dGRyaGhsaWtxanRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxNTgzMTEsImV4cCI6MjEwODczNDMxMX0.ifPBBEdIqcSnnhnkRP9o0sWgQZY2bhbM_5G0qocDMIc";
+var $=function(i){return document.getElementById(i)};
+var fm=function(n){return BN(String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,","))};
+var c4=document.createElement("style");c4.textContent="#txMp{position:fixed;inset:0;z-index:90;display:none;place-items:center;padding:14px;background:rgba(4,7,22,.88);color:#f7efe0;font-family:var(--f-ui,system-ui)}#txMp.on{display:grid}#txMp .bx{box-sizing:border-box;width:min(380px,100%);max-height:92vh;overflow:auto;display:grid;gap:8px;padding:16px;border-radius:20px;background:linear-gradient(180deg,rgba(24,38,98,.97),rgba(8,12,34,.99));box-shadow:0 0 0 1.5px rgba(255,203,31,.85)}#txMp h2{margin:0;text-align:center;font:800 22px var(--f-display,system-ui);color:#ffcb1f}#txMp small{text-align:center;opacity:.8}#txMp input{box-sizing:border-box;min-height:42px;padding:0 12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;font:700 16px var(--f-ui,system-ui)}#txMp button{min-height:44px;border-radius:12px;border:0;background:#ffcb1f;color:#1d1814;font:800 15px var(--f-ui,system-ui);padding:0 14px;cursor:pointer}#txMp button.g{background:rgba(255,255,255,.14);color:#fff}#txMpH{position:fixed;z-index:11;left:10px;top:calc(env(safe-area-inset-top,0px) + 76px);max-width:48vw;padding:5px 9px;border-radius:10px;background:rgba(8,12,34,.72);color:#fff;font:700 12px var(--f-ui,system-ui);display:none;line-height:1.5}";document.head.appendChild(c4);
+var ov4=document.createElement("div");ov4.id="txMp";document.body.appendChild(ov4);
+var hud4=document.createElement("div");hud4.id="txMpH";document.body.appendChild(hud4);
+function stp(el){["keydown","keyup"].forEach(function(k){el.addEventListener(k,function(e){e.stopPropagation()})})}
+function box4(h){ov4.innerHTML='<div class="bx">'+h+'</div>';ov4.classList.add("on")}
+function close4(){ov4.classList.remove("on")}
+function go(){var p=$("playBtn");if(p)p.click()}
+/* ---- মেনু বাটন ---- */
+var mb=document.createElement("button");mb.type="button";mb.textContent="👥 মাল্টিপ্লেয়ার";
+mb.style.cssText="box-sizing:border-box;width:100%;margin:8px 0 0;min-height:46px;border-radius:16px;border:1.5px solid rgba(255,216,77,.6);background:rgba(12,10,8,.55);color:#ffd84d;font:800 16px var(--f-display,system-ui);cursor:pointer";
+setInterval(function(){if(!mb.isConnected){var s=$("txMapSec");if(s&&s.parentNode)s.parentNode.insertBefore(mb,s.nextSibling)}},400);
+mb.onclick=function(){box4('<h2>👥 মাল্টিপ্লেয়ার</h2><button id="mpH">📱 একই ফোনে ২ জন (অফলাইন)</button><button id="mpO">🌐 অনলাইন রুম (বন্ধুর সাথে)</button><button class="g" id="mpX">বন্ধ করুন</button>');
+$("mpX").onclick=close4;$("mpH").onclick=hotForm;$("mpO").onclick=onForm};
+/* ---- অফলাইন: ২ জন পালা করে ---- */
+var mp={mode:null,names:[],scores:[],turn:0,rec:false};
+function hotForm(){box4('<h2>📱 ২ জনের খেলা</h2><small>পালা করে খেলুন, বেশি জাতীয় ক্ষতি করলে জিত</small><input id="mpA" maxlength="16" placeholder="প্রথম খেলোয়াড়ের নাম"><input id="mpB" maxlength="16" placeholder="দ্বিতীয় খেলোয়াড়ের নাম"><button id="mpG">শুরু করুন</button><button class="g" id="mpX">বন্ধ করুন</button>');
+stp($("mpA"));stp($("mpB"));$("mpX").onclick=close4;
+$("mpG").onclick=function(){var a=$("mpA").value.trim()||"খেলোয়াড় ১",b2=$("mpB").value.trim()||"খেলোয়াড় ২";mp={mode:"hot",names:[a,b2],scores:[],turn:0,rec:false};close4();disc();try{say("🎮 "+a+"-এর পালা",3)}catch(e){}go()}}
+function turnEnd(){var n=mp.names,s=mp.scores;
+if(mp.turn===0){box4('<h2>🛺 '+n[0]+'</h2><small>জাতীয় ক্ষতি: ৳'+fm(s[0])+'</small><button id="mpN">'+n[1]+'-এর পালা শুরু</button><button class="g" id="mpX">থামুন</button>');
+$("mpN").onclick=function(){mp.turn=1;mp.rec=false;close4();var a=$("againBtn");if(a)a.click();else go()};$("mpX").onclick=function(){mp.mode=null;close4()}}
+else{var w=s[0]===s[1]?"ড্র! দুজনেই সমান":(s[0]>s[1]?n[0]:n[1])+" জিতেছেন! 🏆";
+box4('<h2>'+w+'</h2><small>'+n[0]+': ৳'+fm(s[0])+'</small><small>'+n[1]+': ৳'+fm(s[1])+'</small><button id="mpR">আবার খেলুন</button><button class="g" id="mpX">শেষ</button>');
+$("mpR").onclick=function(){mp.turn=0;mp.scores=[];mp.rec=false;close4();var a=$("againBtn");if(a)a.click();else go()};$("mpX").onclick=function(){mp.mode=null;close4()}}}
+setInterval(function(){var p=$("paper");if(mp.mode==="hot"&&p&&!p.hidden&&!mp.rec){mp.rec=true;mp.scores[mp.turn]=Math.round(st.loss||0);turnEnd()}},500);
+/* ---- অনলাইন রুম: বন্ধুরা ভূত-রিকশা হয়ে দেখা দেবে ---- */
+var ws=null,me=Math.random().toString(36).slice(2,8),rf=0,GH={},topic="",myName="",room="",hb=0,sendT=0,hudT=0,last4=performance.now();
+function onForm(){var sv="";try{sv=localStorage.getItem("txMpName")||""}catch(e){}
+box4('<h2>🌐 অনলাইন রুম</h2><small>বন্ধুকে একই কোড দিন, দুজনেই একই কোড লিখে জয়েন করুন</small><input id="mpN" maxlength="16" placeholder="আপনার নাম" value="'+sv.replace(/"/g,"")+'"><input id="mpC" maxlength="6" inputmode="numeric" placeholder="রুম কোড (যেমন ১২৩৪)"><button id="mpJ">জয়েন করুন</button><button class="g" id="mpX">বন্ধ করুন</button>');
+stp($("mpN"));stp($("mpC"));$("mpX").onclick=close4;
+$("mpJ").onclick=function(){var n=$("mpN").value.trim(),c=$("mpC").value.trim().replace(/[০-৯]/g,function(d){return"০১২৩৪৫৬৭৮৯".indexOf(d)});if(!n||!c){return}try{localStorage.setItem("txMpName",n)}catch(e){}mp.mode=null;close4();conn(c,n);if(st.state==="menu")go()}}
+function rick4(){var g=new yn();g.add(box(1.1,.25,2,0x2a6f3a,0,.55,0));g.add(box(1,.9,.9,0xe5402a,0,1.1,-.3));g.add(box(1.1,.12,1.2,0xffcb1f,0,1.62,-.3));[[-.6,.6],[.6,.6],[-.6,-.6],[.6,-.6]].forEach(function(p){g.add(box(.12,.7,.7,0x111111,p[0],.35,p[1]))});g.add(box(.45,.9,.3,0x1c3d8f,0,1.2,.7));g.add(box(.3,.3,.3,0xd9a77a,0,1.9,.7));return g}
+function wsend(ev,pl){if(ws&&ws.readyState===1)ws.send(JSON.stringify({topic:topic,event:"broadcast",payload:{type:"broadcast",event:ev,payload:pl},ref:""+(++rf)}))}
+function disc(){clearInterval(hb);if(ws){try{ws.close()}catch(e){}ws=null}for(var k in GH){Ce.remove(GH[k].g);delete GH[k]}room="";hud4.style.display="none"}
+function conn(code,name){disc();myName=name;room=code;topic="realtime:rm-"+code;
+try{ws=new WebSocket(SBU.replace("https","wss")+"/realtime/v1/websocket?apikey="+SBK+"&vsn=1.0.0")}catch(e){say("⚠️ অনলাইনে যুক্ত হওয়া গেল না",3);return}
+ws.onopen=function(){ws.send(JSON.stringify({topic:topic,event:"phx_join",payload:{config:{broadcast:{self:false,ack:false},presence:{key:""},postgres_changes:[],private:false},access_token:SBK},ref:""+(++rf)}));hb=setInterval(function(){try{ws.send(JSON.stringify({topic:"phoenix",event:"heartbeat",payload:{},ref:""+(++rf)}))}catch(e){}},25000)};
+ws.onmessage=function(m){try{var d=JSON.parse(m.data);if(d.event==="phx_reply"&&d.topic===topic&&d.payload&&d.payload.status==="ok"&&!ws.__ok){ws.__ok=1;say("🌐 রুম "+BN(room)+"-এ যুক্ত! বন্ধুরা ভূত-রিকশা হয়ে দেখা দেবে",4)}else if(d.event==="broadcast"&&d.payload&&d.payload.event==="p")got(d.payload.payload)}catch(e){}};
+ws.onerror=function(){say("⚠️ অনলাইন সংযোগে সমস্যা, নেট দেখুন",3)};}
+function got(p){if(!p||p.i===me)return;var g=GH[p.i];if(!g){g={g:rick4(),px:p.x,pz:p.z};Ce.add(g.g);GH[p.i]=g}g.n=p.n;g.tx=p.x;g.tz=p.z;g.fx=p.fx;g.fz=p.fz;g.l=p.l;g.seen=performance.now()}
+/* ---- ভাঙাচোরা রাস্তা + অনলাইন লুপ ---- */
+var potT=2,shT=0;
+function tick4(now){requestAnimationFrame(tick4);var dt=Math.min(.05,(now-last4)/1e3);last4=now;if(window.__paused)return;
+if(st.state!=="play"){for(var k0 in GH)GH[k0].g.visible=false;return}
+potT-=dt;if(potT<=0){try{sPothole()}catch(e){}potT=1.4+Math.random()*2.2}
+if(b.v>4){shT-=dt;if(shT<=0){try{Et.shake(.02+Math.min(.05,b.v*.003))}catch(e){}shT=.16}}
+if(ws){sendT-=dt;if(sendT<=0){sendT=.2;wsend("p",{i:me,n:myName,x:+b.x.toFixed(1),z:+b.z.toFixed(1),fx:+b.fx.toFixed(2),fz:+b.fz.toFixed(2),l:Math.round(st.loss||0)})}
+for(var k in GH){var g=GH[k];if(now-g.seen>4000){Ce.remove(g.g);delete GH[k];continue}g.g.visible=true;var a=Math.min(1,dt*8);g.px+=(g.tx-g.px)*a;g.pz+=(g.tz-g.pz)*a;g.g.position.set(g.px,0,g.pz);g.g.rotation.y=Math.atan2(g.fx,g.fz)}
+hudT-=dt;if(hudT<=0){hudT=.6;var L=[{n:myName+" (আপনি)",l:Math.round(st.loss||0)}];for(var j in GH)L.push({n:GH[j].n||"বন্ধু",l:GH[j].l||0});L.sort(function(x,y){return y.l-x.l});hud4.innerHTML="🌐 রুম "+BN(room)+"<br>"+L.slice(0,4).map(function(x){return x.n+" ৳"+fm(x.l)}).join("<br>");hud4.style.display="block"}}else hud4.style.display="none"}
+requestAnimationFrame(tick4);
+}catch(e){console.error("multiplayer",e)}
+
+/* ===== মাল্টিপ্লেয়ার আপগ্রেড: ধাক্কা · নামের ট্যাগ · শেষে রুমের রেজাল্ট ===== */
+try{
+var c5=document.createElement("style");c5.textContent=".txGL{position:fixed;z-index:11;left:0;top:0;padding:1px 8px;border-radius:8px;background:rgba(8,12,34,.78);color:#fff;font:800 12px var(--f-ui,system-ui);pointer-events:none;white-space:nowrap;display:none;box-shadow:0 0 0 1px rgba(255,203,31,.8)}#txMp .rw{display:grid;grid-template-columns:30px 1fr auto;gap:8px;padding:7px 10px;border-radius:10px;background:rgba(255,255,255,.08);font-weight:700}#txMp .rw.me{background:rgba(255,203,31,.25)}";document.head.appendChild(c5);
+var RS={},doneSent=false,bumpCd=0,last5=performance.now();
+var oc5=conn;conn=function(){oc5.apply(this,arguments);if(!ws)return;RS={};var h=ws.onmessage;ws.onmessage=function(m){h(m);try{var d=JSON.parse(m.data);if(d.event==="broadcast"&&d.payload&&d.payload.event==="d"){var q=d.payload.payload;if(q&&q.i!==me)RS[q.i]={n:q.n,l:q.l}}}catch(e){}}};
+function proj(x,y,z){var V=ze.matrixWorldInverse.elements,P=ze.projectionMatrix.elements;var vx=V[0]*x+V[4]*y+V[8]*z+V[12],vy=V[1]*x+V[5]*y+V[9]*z+V[13],vz=V[2]*x+V[6]*y+V[10]*z+V[14],vw=V[3]*x+V[7]*y+V[11]*z+V[15];
+var cx=P[0]*vx+P[4]*vy+P[8]*vz+P[12]*vw,cy=P[1]*vx+P[5]*vy+P[9]*vz+P[13]*vw,cw=P[3]*vx+P[7]*vy+P[11]*vz+P[15]*vw;if(cw<=0)return null;return{x:(cx/cw*.5+.5)*innerWidth,y:(1-(cy/cw*.5+.5))*innerHeight}}
+function rowsRes(){var L=[{n:myName+" (আপনি)",l:Math.round(st.loss||0),f:1,me:1}];var seen={};for(var k in GH){seen[k]=1;var f=RS[k];L.push({n:GH[k].n||"বন্ধু",l:f?f.l:(GH[k].l||0),f:!!f})}for(var k2 in RS)if(!seen[k2])L.push({n:RS[k2].n||"বন্ধু",l:RS[k2].l,f:1});L.sort(function(a,c){return c.l-a.l});
+return L.map(function(x,i){return'<div class="rw'+(x.me?" me":"")+'"><span>'+(["🥇","🥈","🥉"][i]||BN(i+1))+'</span><span>'+x.n.replace(/</g,"")+(x.f?"":" ⏳")+'</span><span>৳'+fm(x.l)+'</span></div>'}).join("")}
+function showRes(){if(!ws)return;box4('<h2>🏁 রুমের ফলাফল</h2><small>রুম '+BN(room)+' · ⏳ মানে এখনও খেলছে</small><div id="mpL" style="display:grid;gap:6px"></div><button id="mpR2">আবার খেলুন (একই রুমে)</button><button class="g" id="mpQ">রুম ছাড়ুন</button>');
+var up=function(){var l=$("mpL");if(l)l.innerHTML=rowsRes();else clearInterval(iv)};up();var iv=setInterval(up,1000);
+$("mpR2").onclick=function(){clearInterval(iv);close4();var a=$("againBtn");if(a)a.click();else go()};$("mpQ").onclick=function(){clearInterval(iv);close4();disc()}}
+setInterval(function(){var p=$("paper");if(!ws||!p)return;if(!p.hidden&&!doneSent){doneSent=true;wsend("d",{i:me,n:myName,l:Math.round(st.loss||0)});setTimeout(showRes,1200)}else if(p.hidden&&doneSent){doneSent=false;RS={}}},500);
+var lab={};
+function tick5(now){requestAnimationFrame(tick5);var dt=Math.min(.05,(now-last5)/1e3);last5=now;
+var live=ws&&st.state==="play"&&!window.__paused;
+for(var k in lab)if(!live||!GH[k]){lab[k].remove();delete lab[k]}
+if(!live)return;bumpCd-=dt;
+for(var j in GH){var g=GH[j];if(!lab[j]){var d=document.createElement("div");d.className="txGL";document.body.appendChild(d);lab[j]=d}
+var s=proj(g.px,2.9,g.pz),d2=lab[j];if(s&&s.x>-40&&s.x<innerWidth+40&&s.y>-20&&s.y<innerHeight){d2.textContent=(g.n||"বন্ধু");d2.style.display="block";d2.style.transform="translate("+Math.round(s.x)+"px,"+Math.round(s.y)+"px) translate(-50%,-100%)"}else d2.style.display="none";
+if(bumpCd<=0&&g.g.visible&&Math.hypot(b.x-g.px,b.z-g.pz)<2.3){bumpCd=.9;try{b.v*=.55}catch(e){}try{Et.shake(.28)}catch(e){}try{say("💥 "+(g.n||"বন্ধু")+"-এর রিকশার সাথে ধাক্কা!",2)}catch(e){}}}}
+requestAnimationFrame(tick5);
+}catch(e){console.error("mp-upgrade",e)}
+
 })()}catch(e){console.error("tesla v2",e)}
 
 /* ===== নতুন শব্দবোমা (ইউজারের অডিও) ===== */
